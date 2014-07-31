@@ -39,6 +39,7 @@ public abstract class BaseActivity extends ActionBarActivity {
 		initActionBar();
 		initPresenter();
 		initLayout();
+
 	}
 
 	/**

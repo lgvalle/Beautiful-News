@@ -60,6 +60,15 @@ dependencies {
 		changing = true
 	}
 
+
+	compile ('com.squareup.retrofit:converter-simplexml:1.6.1')
+			{
+				exclude module: 'stax'
+				exclude module: 'stax-api'
+				exclude module: 'xpp3'
+			}
+
+
 	// Testing
 	testCompile 'junit:junit:4.10'
 	testCompile 'org.robolectric:robolectric:2.3'

@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.lgvalle.beaufitulphotos.elpais.ElPaisModule;
 import com.lgvalle.beaufitulphotos.events.GalleryItemChosenEvent;
-import com.lgvalle.beaufitulphotos.fivehundredpxs.Api500pxModule;
 import com.lgvalle.beaufitulphotos.fivehundredpxs.model.Feature;
 import com.lgvalle.beaufitulphotos.gallery.DetailsFragment;
-import com.lgvalle.beaufitulphotos.gallery.GalleryFragment;
+import com.lgvalle.beaufitulphotos.gallery.NewsFragment;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosPresenter;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosScreen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
@@ -161,8 +161,8 @@ public class BeautifulPhotosActivity extends BaseActivity implements BeautifulPh
 		// Listen to details panel to act in actionbar
 		panel.setPanelSlideListener(this);
 		// Add Gallery Fragment to main_content frame. If this is a tablet there will be another frame to add content
-		GalleryFragment galleryFragment = GalleryFragment.newInstance();
-		addFragment(R.id.main_content, galleryFragment, FRAGMENT_GALLERY_TAG);
+		NewsFragment news = NewsFragment.newInstance();
+		addFragment(R.id.main_content, news, FRAGMENT_GALLERY_TAG);
 
 		// Add Details fragment with no content. It's fragment responsibility to listen to item selection events on bus
 		DetailsFragment detailsFragment = DetailsFragment.newInstance();
@@ -172,7 +172,7 @@ public class BeautifulPhotosActivity extends BaseActivity implements BeautifulPh
 	@Override
 	protected void initPresenter() {
 		// Init activity presenter with all it's dependencies
-		presenter = new BeautifulPhotosPresenterImpl(this, Api500pxModule.getService(), Feature.Popular);
+		presenter = new BeautifulPhotosPresenterImpl(this, ElPaisModule.getService(), Feature.Popular);
 	}
 
 	/**

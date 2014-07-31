@@ -7,14 +7,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+import com.lgvalle.beaufitulphotos.elpais.ElPaisService;
+import com.lgvalle.beaufitulphotos.elpais.model.Rss;
 import com.lgvalle.beaufitulphotos.events.GalleryReloadEvent;
 import com.lgvalle.beaufitulphotos.events.GalleryRequestingMoreElementsEvent;
+import com.lgvalle.beaufitulphotos.events.NewsAvailableEvent;
 import com.lgvalle.beaufitulphotos.events.PhotoDetailsAvailableEvent;
-import com.lgvalle.beaufitulphotos.events.PhotosAvailableEvent;
 import com.lgvalle.beaufitulphotos.fivehundredpxs.Api500pxService;
-import com.lgvalle.beaufitulphotos.fivehundredpxs.model.Favorites;
 import com.lgvalle.beaufitulphotos.fivehundredpxs.model.Feature;
-import com.lgvalle.beaufitulphotos.fivehundredpxs.model.PhotosResponse;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosPresenter;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosScreen;
 import com.lgvalle.beaufitulphotos.interfaces.PhotoModel;
@@ -22,9 +22,7 @@ import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import ly.apps.android.rest.client.Callback;
-import ly.apps.android.rest.client.Response;
-import org.apache.http.HttpStatus;
+import retrofit.RetrofitError;
 
 import java.util.ArrayList;
 
@@ -47,7 +45,7 @@ public class BeautifulPhotosPresenterImpl implements BeautifulPhotosPresenter {
 	/* UI layer interface */
 	private final BeautifulPhotosScreen screen;
 	/* Network service interface */
-	private final Api500pxService service;
+	private final ElPaisService service;
 	private Feature currentFeature;
 	/* Memory cached photo-model list */
 	private ArrayList<PhotoModel> photos;
@@ -64,7 +62,7 @@ public class BeautifulPhotosPresenterImpl implements BeautifulPhotosPresenter {
 	 * @param screen  UI Layer interface
 	 * @param service Network service interface
 	 */
-	public BeautifulPhotosPresenterImpl(BeautifulPhotosScreen screen, Api500pxService service, Feature feature) {
+	public BeautifulPhotosPresenterImpl(BeautifulPhotosScreen screen, ElPaisService service, Feature feature) {
 		this.screen = screen;
 		this.service = service;
 		this.currentFeature = feature;
@@ -90,18 +88,8 @@ public class BeautifulPhotosPresenterImpl implements BeautifulPhotosPresenter {
 		final PhotoModel photo = photos.get(itemIndex);
 		// First time asking for details (favorites in this example) we get them from server and save them into the photo item to avoid future calls
 		if (photo.getFavorites() == null) {
-			service.getFavorites(Api500pxService.CONSUMER_KEY_VALUE, photoModel.getId(), new Callback<Favorites>() {
-				@Override
-				public void onResponse(Response<Favorites> response) {
-					if (response.getStatusCode() == HttpStatus.SC_OK && response.getResult() != null) {
-						// Save details to avoid future calls and post item on bus
-						photo.setFavorites(response.getResult().getTotalItems());
-						BusHelper.post(new PhotoDetailsAvailableEvent(photo));
-					} else {
-						/* if error nothing to do */
-					}
-				}
-			});
+			// TODO llamar a detalles
+
 		} else {
 			// Already got details, just post photo item on bus
 			BusHelper.post(new PhotoDetailsAvailableEvent(photo));
@@ -122,26 +110,23 @@ public class BeautifulPhotosPresenterImpl implements BeautifulPhotosPresenter {
 			return;
 		}
 
-		service.getPhotos(service.CONSUMER_KEY_VALUE, service.SIZE_SMALL, service.SIZE_BIG, currentFeature.getParam(), currentPage, new Callback<PhotosResponse>() {
-					@Override
-					public void onResponse(Response<PhotosResponse> response) {
-						if (response.getStatusCode() == HttpStatus.SC_OK && response.getResult() != null) {
-							// Cache photos info
-							PhotosResponse data = response.getResult();
-							photos.addAll(data.getPhotos());
-							// Post new results on bus
-							BusHelper.post(new PhotosAvailableEvent(data.getPhotos()));
-							// Update totalPages
-							totalPages = data.getTotalPages();
-						} else {
-							// Display error message
-							screen.showError(R.string.service_error);
-							// Page revert
-							decrementPage();
-						}
-					}
+		service.getPortada(new retrofit.Callback<Rss>() {
+			@Override
+			public void success(Rss rss, retrofit.client.Response response) {
+				if (rss == null) {
+					Log.d(TAG, "[BeautifulPhotosPresenterImpl - success] - (line 119): " + "rss null");
+				} else if (rss.getChannel() == null) {
+					Log.d(TAG, "[BeautifulPhotosPresenterImpl - success] - (line 121): " + "channel null");
 				}
-		);
+
+				BusHelper.post(new NewsAvailableEvent(rss.getChannel().getItem()));
+			}
+
+			@Override
+			public void failure(RetrofitError retrofitError) {
+				Log.e(TAG, "[BeautifulPhotosPresenterImpl - failure] - (line 124): " + "", retrofitError);
+			}
+		});
 		incrementPage();
 		// Update UI with current feature info
 		screen.updateTitle(currentFeature.getTitle());
@@ -205,8 +190,9 @@ public class BeautifulPhotosPresenterImpl implements BeautifulPhotosPresenter {
 
 	/**
 	 * Get bitmap uri from filesystem and create intent with it.
+	 *
 	 * @param bitmap Image bitmap
-	 * @param title Image title
+	 * @param title  Image title
 	 */
 	private void shareBitmap(Context ctx, Bitmap bitmap, String title) {
 		// TODO: do this in a new separate thread if needed
@@ -227,7 +213,7 @@ public class BeautifulPhotosPresenterImpl implements BeautifulPhotosPresenter {
 	 * Decrement page until reach first one
 	 */
 	private void decrementPage() {
-		if (currentPage > service.FIRST_PAGE) {
+		if (currentPage > 1) {
 			currentPage--;
 		}
 	}
