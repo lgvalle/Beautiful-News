@@ -10,8 +10,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.facebook.rebound.*;
 import com.lgvalle.beaufitulphotos.R;
+import com.lgvalle.beaufitulphotos.elpais.model.Enclosure;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
+import com.lgvalle.beaufitulphotos.utils.PicassoHelper;
 import com.lgvalle.beaufitulphotos.utils.Renderer;
+
+import java.util.List;
 
 /**
  * Created by lgvalle on 21/07/14.
@@ -55,6 +59,11 @@ public class NewsItemRenderer extends Renderer<Item> {
 	@Override
 	public View render(Context ctx) {
 		// Load photo
+		List<Enclosure> enclosure = getContent().getEnclosure();
+		if (enclosure != null && enclosure.size() > 0) {
+			PicassoHelper.load(ctx, enclosure.get(0).getUrl(), ivPhoto);
+		}
+
 		// Set photo title
 		tvPhotoTitle.setText(getContent().getTitle());
 		return rootView;
