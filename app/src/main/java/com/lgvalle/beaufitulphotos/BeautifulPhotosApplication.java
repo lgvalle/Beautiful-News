@@ -1,7 +1,6 @@
 package com.lgvalle.beaufitulphotos;
 
 import android.app.Application;
-import com.lgvalle.beaufitulphotos.fivehundredpxs.Api500pxModule;
 import com.lgvalle.beaufitulphotos.utils.TypefaceUtil;
 
 /**
@@ -12,7 +11,6 @@ public class BeautifulPhotosApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		// Init service module
-		Api500pxModule.init(this);
 		// Replace font typeface in all application
 		TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/RobotoCondensed-Regular.ttf");
 	}

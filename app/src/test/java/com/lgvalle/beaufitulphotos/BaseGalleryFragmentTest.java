@@ -2,7 +2,7 @@ package com.lgvalle.beaufitulphotos;
 
 import android.widget.ListView;
 import com.lgvalle.beaufitulphotos.fivehundredpxs.model.Photo500px;
-import com.lgvalle.beaufitulphotos.gallery.GalleryFragment;
+import com.lgvalle.beaufitulphotos.gallery.BaseGalleryFragment;
 import com.lgvalle.beaufitulphotos.interfaces.PhotoModel;
 import com.lgvalle.beaufitulphotos.utils.RendererAdapter;
 import org.junit.Before;
@@ -22,13 +22,13 @@ import static junit.framework.Assert.assertNotNull;
  */
 @Config(emulateSdk = 18, qualifiers = "v10")
 @RunWith(RobolectricTestRunner.class)
-public class GalleryFragmentTest extends FragmentTestCase<GalleryFragment> {
-	private GalleryFragment fragment;
+public class BaseGalleryFragmentTest extends FragmentTestCase<BaseGalleryFragment> {
+	private BaseGalleryFragment fragment;
 	private List<PhotoModel> photos;
 
 	@Before
 	public void setUp() {
-		fragment = GalleryFragment.newInstance();
+		fragment = BaseGalleryFragment.newInstance();
 		photos = new ArrayList<PhotoModel>();
 		photos.add(new Photo500px("title1"));
 		photos.add(new Photo500px("title2"));

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
  * <li>Bind view elements with model and generate a view for them. This should be done by child classes. So is an abstract method</li>
  */
 public abstract class Renderer<T> {
+
 	protected View rootView;
 	protected T content;
 

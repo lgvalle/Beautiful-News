@@ -7,7 +7,7 @@ import retrofit.converter.SimpleXMLConverter;
  * Created by lgvalle on 31/07/14.
  */
 public class ElPaisModule {
-	private static final String END_POINT = "http://ep00.epimg.net/rss/elpais/";
+	private static final String END_POINT = "http://ep00.epimg.net/rss/";
 	private static final ElPaisService service;
 
 	static {

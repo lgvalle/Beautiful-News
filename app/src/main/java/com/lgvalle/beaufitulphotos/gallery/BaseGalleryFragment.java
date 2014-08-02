@@ -6,16 +6,18 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import com.lgvalle.beaufitulphotos.BaseFragment;
 import com.lgvalle.beaufitulphotos.R;
-import com.lgvalle.beaufitulphotos.events.GalleryItemChosenEvent;
+import com.lgvalle.beaufitulphotos.elpais.model.Section;
+import com.lgvalle.beaufitulphotos.events.GalleryItemsAvailableEvent;
 import com.lgvalle.beaufitulphotos.events.GalleryReloadEvent;
 import com.lgvalle.beaufitulphotos.events.GalleryRequestingMoreElementsEvent;
 import com.lgvalle.beaufitulphotos.events.PhotosAvailableEvent;
-import com.lgvalle.beaufitulphotos.interfaces.PhotoModel;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
+import com.lgvalle.beaufitulphotos.utils.Renderer;
 import com.lgvalle.beaufitulphotos.utils.RendererAdapter;
 import com.squareup.otto.Subscribe;
 
@@ -28,12 +30,12 @@ import com.squareup.otto.Subscribe;
  * It is initialized empty and listen for {@link PhotosAvailableEvent} on the bus
  * When a new event is received, all photos are added to the adapter.
  */
-public class GalleryFragment extends BaseFragment {
-	private static final String TAG = GalleryFragment.class.getSimpleName();
+public abstract class BaseGalleryFragment<T> extends BaseFragment {
+	private static final String TAG = BaseGalleryFragment.class.getSimpleName();
 	/* Items before list end when loading more elements start */
 	private static final int LOAD_OFFSET = 1;
 	/* List adapter */
-	private RendererAdapter<PhotoModel> adapter;
+	private RendererAdapter<T> adapter;
 	/* Save last visible item to know if scrolling up or down */
 	private int lastVisible;
 	/* Views */
@@ -46,17 +48,15 @@ public class GalleryFragment extends BaseFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Gallery adapter
-		adapter = new RendererAdapter<PhotoModel>(LayoutInflater.from(getActivity()), new GalleryItemRenderer(), getActivity());
+		adapter = new RendererAdapter<T>(LayoutInflater.from(getActivity()), getRenderer(), getActivity());
 	}
+
+	protected abstract Renderer<T> getRenderer();
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		BusHelper.register(this);
-		// Empty list? Ask for some photos!
-		if (adapter.isEmpty()) {
-			BusHelper.post(new GalleryRequestingMoreElementsEvent());
-		}
 	}
 
 	@Override
@@ -65,12 +65,8 @@ public class GalleryFragment extends BaseFragment {
 		BusHelper.unregister(this);
 	}
 
-	public RendererAdapter<PhotoModel> getAdapter() {
+	public RendererAdapter<T> getAdapter() {
 		return adapter;
-	}
-
-	public static GalleryFragment newInstance() {
-		return new GalleryFragment();
 	}
 
 	/**
@@ -80,7 +76,7 @@ public class GalleryFragment extends BaseFragment {
 	 */
 	@OnItemClick(R.id.photo_list)
 	public void onGalleryItemClick(int position) {
-		BusHelper.post(new GalleryItemChosenEvent(adapter.getItem(position)));
+		Toast.makeText(getActivity(), "TODO!", Toast.LENGTH_SHORT).show();
 	}
 
 	/**
@@ -104,10 +100,10 @@ public class GalleryFragment extends BaseFragment {
 	 * @param event Event containing new photos
 	 */
 	@Subscribe
-	public void onNewPhotosEvent(PhotosAvailableEvent event) {
-		if (event != null && event.getPhotos() != null) {
+	public void onItemsAvailableEvent(GalleryItemsAvailableEvent<T, Section> event) {
+		if (event != null && event.getItems() != null) {
 			// Adapter refresh itself
-			adapter.addElements(event.getPhotos());
+			adapter.addElements(event.getItems());
 
 			// Stop refreshing animation
 			setLoading(false);
@@ -126,9 +122,6 @@ public class GalleryFragment extends BaseFragment {
 
 	@Override
 	protected void initLayout() {
-		// Show app name on actionbar when fragment is ready
-		getActivity().getActionBar().setDisplayShowTitleEnabled(true);
-
 		list.setAdapter(adapter);
 		list.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
@@ -164,7 +157,7 @@ public class GalleryFragment extends BaseFragment {
 		// Load more items if not already loading
 		if (!isLoading() && list.getLastVisiblePosition() >= adapter.getCount() - LOAD_OFFSET) {
 			setLoading(true);
-			BusHelper.post(new GalleryRequestingMoreElementsEvent());
+			//BusHelper.post(new GalleryRequestingMoreElementsEvent());
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.lgvalle.beaufitulphotos.interfaces;
 
 import android.content.Context;
-import com.lgvalle.beaufitulphotos.fivehundredpxs.model.Feature;
+import com.lgvalle.beaufitulphotos.elpais.model.Section;
 
 /**
  * Created by lgvalle on 21/07/14.
@@ -25,7 +25,7 @@ public interface BeautifulPhotosPresenter {
 	 * Switch service feature resetting previous data and requesting new photos
 	 * @param feature New feature to switch to
 	 */
-	void switchFeature(Feature feature);
+	void switchFeature(Section feature);
 
 	/**
 	 * Share photo with system intent

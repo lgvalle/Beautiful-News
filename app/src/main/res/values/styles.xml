@@ -11,7 +11,7 @@
 	</style>
 
 
-	<style name="Theme.BeautifulPhotos.ActionbarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+	<style name="Theme.BeautifulPhotos.ActionbarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
 		<item name="android:background">@android:color/transparent</item>
 		<item name="android:windowActionBarOverlay">true</item>
 		<item name="android:titleTextStyle">@style/Theme.BeautifulPhotos.TitleTextStyleLight</item>
@@ -28,6 +28,8 @@
 		<item name="android:textColor">@color/grey_400</item>
 		<item name="android:textSize">16dp</item>
 		<item name="android:shadowColor">@color/grey_900</item>
+		<item name="android:shadowDx">3</item>
+		<item name="android:shadowDy">3</item>
 		<item name="android:shadowRadius">1</item>
 		<item name="android:gravity">center_vertical</item>
 

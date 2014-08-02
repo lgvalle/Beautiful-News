@@ -60,8 +60,13 @@ public class NewsItemRenderer extends Renderer<Item> {
 	public View render(Context ctx) {
 		// Load photo
 		List<Enclosure> enclosure = getContent().getEnclosure();
-		if (enclosure != null && enclosure.size() > 0) {
-			PicassoHelper.load(ctx, enclosure.get(0).getUrl(), ivPhoto);
+		if (enclosure != null) {
+			String image = enclosure.get(0).getUrl();
+			if (enclosure.size() > 1) {
+				image = enclosure.get(1).getUrl();
+			}
+			PicassoHelper.load(ctx, image, ivPhoto);
+
 		}
 
 		// Set photo title
@@ -85,9 +90,7 @@ public class NewsItemRenderer extends Renderer<Item> {
 	private void animate() {
 		// Map the spring to the photo and the photo title positions so that they are hidden off the row and bounces in on render or recycle row.
 		float positionTitle = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, ivPhoto.getHeight(), 0);
-		float positionPhoto = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, ivPhoto.getHeight()/2, 0);
 		tvPhotoTitle.setTranslationY(positionTitle);
-		ivPhoto.setTranslationY(positionPhoto);
 	}
 
 	@Override
