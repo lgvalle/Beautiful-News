@@ -4,18 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.facebook.rebound.*;
 import com.lgvalle.beaufitulphotos.R;
-import com.lgvalle.beaufitulphotos.elpais.model.Enclosure;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
 import com.lgvalle.beaufitulphotos.utils.PicassoHelper;
 import com.lgvalle.beaufitulphotos.utils.Renderer;
-
-import java.util.List;
 
 /**
  * Created by lgvalle on 21/07/14.
@@ -25,6 +23,7 @@ import java.util.List;
  * This class binds a concrete view with a concrete object.
  */
 public class NewsItemRenderer extends Renderer<Item> {
+	private static final String TAG = NewsItemRenderer.class.getSimpleName();
 	private static final SpringConfig SPRING_CONFIG = SpringConfig.fromOrigamiTensionAndFriction(10, 10);
 	private final Spring mSpring = SpringSystem.create().createSpring().setSpringConfig(SPRING_CONFIG).addListener(new SimpleSpringListener() {
 		@Override
@@ -38,6 +37,8 @@ public class NewsItemRenderer extends Renderer<Item> {
 	ImageView ivPhoto;
 	@InjectView(R.id.photo_title)
 	TextView tvPhotoTitle;
+	@InjectView(R.id.photo_title_frame)
+	FrameLayout flTitleFrame;
 
 	public NewsItemRenderer() {
 		super();
@@ -59,15 +60,7 @@ public class NewsItemRenderer extends Renderer<Item> {
 	@Override
 	public View render(Context ctx) {
 		// Load photo
-		List<Enclosure> enclosure = getContent().getEnclosure();
-		if (enclosure != null) {
-			String image = enclosure.get(0).getUrl();
-			if (enclosure.size() > 1) {
-				image = enclosure.get(1).getUrl();
-			}
-			PicassoHelper.load(ctx, image, ivPhoto);
-
-		}
+		PicassoHelper.load(ctx, getContent().getImageURLSmall(), ivPhoto);
 
 		// Set photo title
 		tvPhotoTitle.setText(getContent().getTitle());
@@ -89,8 +82,8 @@ public class NewsItemRenderer extends Renderer<Item> {
 	 */
 	private void animate() {
 		// Map the spring to the photo and the photo title positions so that they are hidden off the row and bounces in on render or recycle row.
-		float positionTitle = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, ivPhoto.getHeight(), 0);
-		tvPhotoTitle.setTranslationY(positionTitle);
+		float positionTitle = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, flTitleFrame.getHeight(), 0);
+		flTitleFrame.setTranslationY(positionTitle);
 	}
 
 	@Override

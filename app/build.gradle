@@ -60,6 +60,11 @@ dependencies {
 		changing = true
 	}
 
+	// Parse HTML
+	compile 'org.apache.commons:commons-lang3:3.3.2'
+
+	// Pager parallax
+	compile 'com.xgc1986.ParallaxPagerTransformer:library:0.2-SNAPSHOT@aar'
 
 	compile ('com.squareup.retrofit:converter-simplexml:1.6.1')
 			{
@@ -73,4 +78,6 @@ dependencies {
 	testCompile 'junit:junit:4.10'
 	testCompile 'org.robolectric:robolectric:2.3'
 	testCompile 'org.mockito:mockito-all:1.9.5'
+
+	compile project(':ParallaxScroll')
 }

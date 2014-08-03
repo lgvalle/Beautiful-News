@@ -14,7 +14,7 @@ import com.squareup.picasso.Transformation;
  */
 
 public class BlurTransformation implements Transformation {
-	private static final float RADIUS = 20;
+	private static final float RADIUS = 1;
 	RenderScript rs;
 
 	public BlurTransformation(Context context) {

@@ -29,7 +29,7 @@ public class ElPaisModule {
 		// Configure an adapter for this client
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint(END_POINT)
-				.setLogLevel(RestAdapter.LogLevel.FULL)
+				//.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setConverter(new SimpleXMLConverter())
 				.build();
 

@@ -7,6 +7,8 @@ import com.lgvalle.beaufitulphotos.elpais.model.Rss;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
 import com.lgvalle.beaufitulphotos.events.GalleryItemsAvailableEvent;
 import com.lgvalle.beaufitulphotos.events.GalleryRequestingMoreElementsEvent;
+import com.lgvalle.beaufitulphotos.events.NewsItemChosen;
+import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosScreen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.squareup.otto.Subscribe;
 import retrofit.RetrofitError;
@@ -21,10 +23,12 @@ import java.util.Map;
 public class BeautifulNewsPresenterImpl {
 	private static final String TAG = BeautifulNewsPresenterImpl.class.getSimpleName();
 	final ElPaisService service;
+	private final BeautifulPhotosScreen screen;
 	Map<Section, List<Item>> map;
 
-	public BeautifulNewsPresenterImpl(ElPaisService service) {
+	public BeautifulNewsPresenterImpl(ElPaisService service, BeautifulPhotosScreen screen) {
 		this.service = service;
+		this.screen = screen;
 		this.map = new HashMap<Section, List<Item>>();
 	}
 
@@ -33,11 +37,23 @@ public class BeautifulNewsPresenterImpl {
 		Section section = event.getSection();
 		List<Item> items = map.get(section);
 		if (items == null || items.isEmpty()) {
-			Log.d(TAG, "[BeautifulNewsPresenterImpl - onGalleryRequestingMoreEvent] - (line 37): " + "loading new "+section.getParam());
+			Log.d(TAG, "[BeautifulNewsPresenterImpl - onGalleryRequestingMoreEvent] - (line 37): " + "loading new " + section.getParam());
 			load(section);
 		} else {
-			Log.d(TAG, "[BeautifulNewsPresenterImpl - onGalleryRequestingMoreEvent] - (line 40): " + "loading cached "+section.getParam());
+			Log.d(TAG, "[BeautifulNewsPresenterImpl - onGalleryRequestingMoreEvent] - (line 40): " + "loading cached " + section.getParam());
 			BusHelper.post(new GalleryItemsAvailableEvent<Item, Section>(items, section));
+		}
+	}
+
+	/**
+	 * When a new Gallery Item is selected, clear previous image views and load the new one
+	 */
+	@Subscribe
+	public void onNewsItemChosen(NewsItemChosen event) {
+		if (event != null && event.getItem() != null) {
+			List<Item> section = map.get(event.getSection());
+			int index = section.indexOf(event.getItem());
+			screen.openDetails(index, section);
 		}
 	}
 

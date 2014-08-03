@@ -1,5 +1,7 @@
 package com.lgvalle.beaufitulphotos;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -8,13 +10,14 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.lgvalle.beaufitulphotos.elpais.ElPaisModule;
+import com.lgvalle.beaufitulphotos.elpais.model.Item;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
-import com.lgvalle.beaufitulphotos.events.GalleryItemChosenEvent;
-import com.lgvalle.beaufitulphotos.gallery.DetailsFragment;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosScreen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -67,22 +70,10 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	public void onBackPressed() {
 		// If panel is expanded -> collapse
 		// If panel is not expanded forward call to super class (making activity close)
-		if (!panel.collapsePanel()) {
+		if (panel.collapsePanel()) {
+			actionBarToTabs();
+		} else {
 			super.onBackPressed();
-		}
-	}
-
-
-	/**
-	 * Listen to gallery item selection: open panel al request presenter for photo details
-	 *
-	 * @param event Event containing selected item
-	 */
-	@Subscribe
-	public void onGalleryItemChosen(GalleryItemChosenEvent event) {
-		if (event != null && event.getPhoto() != null) {
-			panel.expandPanel();
-
 		}
 	}
 
@@ -102,14 +93,13 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	@Override
 	public void onPanelCollapsed(View view) {
 		// When panel collapsed restore actionbar title and UI elements
-		getSupportActionBar().setTitle(title);
+		actionBarToTabs();
 		toggleUI(false);
 	}
 
 	@Override
 	public void onPanelExpanded(View view) {
 		// When panel expands (photo selected) always display actionbar with back button
-		getSupportActionBar().show();
 		toggleUI(true);
 	}
 
@@ -155,18 +145,12 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 			                              }
 		                              }
 		);
-
-		// Add Details fragment with no content. It's fragment responsibility to listen to item selection events on bus
-		DetailsFragment detailsFragment = DetailsFragment.newInstance();
-		addFragment(R.id.frame_details_content, detailsFragment, FRAGMENT_DETAILS_TAG);
 	}
 
 	@Override
 	protected void initActionBar() {
 		super.initActionBar();
-		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		getSupportActionBar().setDisplayShowHomeEnabled(false);
+		actionBarToTabs();
 		// Add 3 tabs, specifying the tab's text and TabListener
 		for (int i = 0; i < sections.length; i++) {
 			ActionBar.Tab tab = getSupportActionBar().newTab().setText(sections[i].getTitle()).setTabListener(new ActionBar.TabListener() {
@@ -198,7 +182,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	@Override
 	protected void initPresenter() {
 		// Init activity presenter with all it's dependencies
-		this.presenter = new BeautifulNewsPresenterImpl(ElPaisModule.getService());
+		this.presenter = new BeautifulNewsPresenterImpl(ElPaisModule.getService(), this);
 
 	}
 
@@ -210,5 +194,26 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	private void toggleUI(boolean panelExpanded) {
 		// Only toggle this elements if not a tablet
 
+	}
+
+
+	@Override
+	public void openDetails(int itemIndex, List<Item> items) {
+		Intent i = new Intent(this, DetailsPagerActivity.class);
+		i.putExtra(DetailsPagerActivity.INTENT_EXTRAS_INDEX, itemIndex);
+		i.putParcelableArrayListExtra(DetailsPagerActivity.INTENT_EXTRAS_ITEMS, (ArrayList<? extends Parcelable>) items);
+		startActivity(i);
+	}
+
+	private void actionBarToTitle() {
+		getSupportActionBar().hide();
+
+	}
+
+	private void actionBarToTabs() {
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
+		getSupportActionBar().show();
 	}
 }

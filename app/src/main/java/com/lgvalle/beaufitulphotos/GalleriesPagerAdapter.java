@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
-import com.lgvalle.beaufitulphotos.gallery.BaseGalleryFragment;
-import com.lgvalle.beaufitulphotos.gallery.NewsGalleryFragment;
+import com.lgvalle.beaufitulphotos.gallery.BaseElementListFragment;
+import com.lgvalle.beaufitulphotos.gallery.NewsListFragment;
 
 /**
  * Created by lgvalle on 02/08/14.
@@ -27,7 +27,7 @@ public class GalleriesPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int i) {
-		BaseGalleryFragment<Item> news = NewsGalleryFragment.newInstance(sections[i]);;
+		BaseElementListFragment<Item> news = NewsListFragment.newInstance(sections[i]);;
 		return news;
 	}
 }

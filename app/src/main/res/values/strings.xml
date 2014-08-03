@@ -15,4 +15,7 @@
 	<string name="section_internacional">Internacional</string>
 	<string name="section_deportes">Deportes</string>
 	<string name="section_sociedad">Sociedad</string>
+	<string name="section_politica">Política</string>
+	<string name="html_header"><![CDATA[<HTML><HEAD><LINK href=\"styles.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>]]></string>
+	<string name="html_footer"><![CDATA[</body></HTML>]]></string>
 </resources>

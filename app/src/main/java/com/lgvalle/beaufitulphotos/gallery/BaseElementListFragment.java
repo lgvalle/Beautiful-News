@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import butterknife.InjectView;
-import butterknife.OnItemClick;
 import com.lgvalle.beaufitulphotos.BaseFragment;
 import com.lgvalle.beaufitulphotos.R;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
@@ -30,12 +28,12 @@ import com.squareup.otto.Subscribe;
  * It is initialized empty and listen for {@link PhotosAvailableEvent} on the bus
  * When a new event is received, all photos are added to the adapter.
  */
-public abstract class BaseGalleryFragment<T> extends BaseFragment {
-	private static final String TAG = BaseGalleryFragment.class.getSimpleName();
+public abstract class BaseElementListFragment<T> extends BaseFragment {
+	private static final String TAG = BaseElementListFragment.class.getSimpleName();
 	/* Items before list end when loading more elements start */
 	private static final int LOAD_OFFSET = 1;
 	/* List adapter */
-	private RendererAdapter<T> adapter;
+	protected RendererAdapter<T> adapter;
 	/* Save last visible item to know if scrolling up or down */
 	private int lastVisible;
 	/* Views */
@@ -67,16 +65,6 @@ public abstract class BaseGalleryFragment<T> extends BaseFragment {
 
 	public RendererAdapter<T> getAdapter() {
 		return adapter;
-	}
-
-	/**
-	 * Click on a gallery item
-	 *
-	 * @param position Position of clicked item
-	 */
-	@OnItemClick(R.id.photo_list)
-	public void onGalleryItemClick(int position) {
-		Toast.makeText(getActivity(), "TODO!", Toast.LENGTH_SHORT).show();
 	}
 
 	/**
@@ -139,33 +127,11 @@ public abstract class BaseGalleryFragment<T> extends BaseFragment {
 						showActionBar();
 					}
 					lastVisible = currentFirstVisibleItem;
-
-
-					loadMore();
-
 				}
 			}
 		});
 
 
-	}
-
-	/**
-	 * Request more items if already scrolled to the end of the list
-	 */
-	private void loadMore() {
-		// Load more items if not already loading
-		if (!isLoading() && list.getLastVisiblePosition() >= adapter.getCount() - LOAD_OFFSET) {
-			setLoading(true);
-			//BusHelper.post(new GalleryRequestingMoreElementsEvent());
-		}
-	}
-
-	/**
-	 * @return true if loading progress bar is visible
-	 */
-	private boolean isLoading() {
-		return View.VISIBLE == pbLoading.getVisibility();
 	}
 
 	/**

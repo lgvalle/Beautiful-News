@@ -5,14 +5,15 @@
 		<item name="android:actionBarStyle">@style/Theme.BeautifulPhotos.ActionbarStyle</item>
 		<item name="android:icon">@drawable/ic_launcher</item>
 		<item name="android:typeface">serif</item>
-		<item name="android:windowBackground">@color/grey_1000</item>
+		<item name="android:windowBackground">@color/grey_400</item>
 		<item name="icon">@drawable/ic_launcher</item>
 		<item name="android:windowNoTitle">false</item>
 	</style>
 
 
-	<style name="Theme.BeautifulPhotos.ActionbarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-		<item name="android:background">@android:color/transparent</item>
+	<style name="Theme.BeautifulPhotos.ActionbarStyle" parent="@style/Widget.AppCompat.Light.ActionBar">
+		<item name="android:background">@color/grey_600</item>
+		<item name="android:icon">@android:color/transparent</item>
 		<item name="android:windowActionBarOverlay">true</item>
 		<item name="android:titleTextStyle">@style/Theme.BeautifulPhotos.TitleTextStyleLight</item>
 		<item name="windowActionBarOverlay">true</item>
@@ -26,7 +27,7 @@
 
 	<style name="PhotoCaption">
 		<item name="android:textColor">@color/grey_400</item>
-		<item name="android:textSize">16dp</item>
+		<item name="android:textSize">26dp</item>
 		<item name="android:shadowColor">@color/grey_900</item>
 		<item name="android:shadowDx">3</item>
 		<item name="android:shadowDy">3</item>
@@ -35,13 +36,7 @@
 
 	</style>
 
-	<style name="PhotoCaption.Italic" parent="@style/PhotoCaption">
-		<item name="android:textStyle">italic</item>
-	</style>
-
 	<style name="PhotoThumbnail">
-		<item name="android:layout_margin">2dp</item>
-		<item name="android:padding">2dp</item>
 		<item name="android:scaleType">centerCrop</item>
 		<item name="android:adjustViewBounds">true</item>
 	</style>
@@ -53,4 +48,25 @@
 		<item name="android:gravity">center_horizontal|center_vertical</item>
 	</style>
 
+	<style name="NewsElement">
+		<item name="android:layout_marginLeft">10dp</item>
+		<item name="android:layout_marginRight">10dp</item>
+		<item name="android:layout_marginTop">10dp</item>
+	</style>
+
+	<style name="NewsElement.Titular">
+		<item name="android:textSize">20dp</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:textColor">@color/grey_700</item>
+	</style>
+
+	<style name="NewsElement.Entradilla">
+		<item name="android:textSize">18dp</item>
+		<item name="android:textColor">@color/grey_700</item>
+	</style>
+
+	<style name="NewsElement.Autor">
+		<item name="android:textSize">16dp</item>
+		<item name="android:textColor">@color/grey_500</item>
+	</style>
 </resources>

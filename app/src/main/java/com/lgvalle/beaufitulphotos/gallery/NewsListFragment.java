@@ -1,11 +1,13 @@
 package com.lgvalle.beaufitulphotos.gallery;
 
 import android.os.Bundle;
-import android.util.Log;
+import butterknife.OnItemClick;
+import com.lgvalle.beaufitulphotos.R;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
 import com.lgvalle.beaufitulphotos.events.GalleryItemsAvailableEvent;
 import com.lgvalle.beaufitulphotos.events.GalleryRequestingMoreElementsEvent;
+import com.lgvalle.beaufitulphotos.events.NewsItemChosen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.lgvalle.beaufitulphotos.utils.Renderer;
 import com.squareup.otto.Subscribe;
@@ -13,8 +15,8 @@ import com.squareup.otto.Subscribe;
 /**
  * Created by lgvalle on 02/08/14.
  */
-public class NewsGalleryFragment extends BaseGalleryFragment<Item> {
-	private static final String TAG = NewsGalleryFragment.class.getSimpleName();
+public class NewsListFragment extends BaseElementListFragment<Item> {
+	private static final String TAG = NewsListFragment.class.getSimpleName();
 	private Section section;
 
 	@Override
@@ -22,8 +24,8 @@ public class NewsGalleryFragment extends BaseGalleryFragment<Item> {
 		return new NewsItemRenderer();
 	}
 
-	public static NewsGalleryFragment newInstance(Section section) {
-		NewsGalleryFragment f = new NewsGalleryFragment();
+	public static NewsListFragment newInstance(Section section) {
+		NewsListFragment f = new NewsListFragment();
 		Bundle args = new Bundle();
 		args.putSerializable("section", section);
 		f.setArguments(args);
@@ -34,37 +36,32 @@ public class NewsGalleryFragment extends BaseGalleryFragment<Item> {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.section = (Section) getArguments().getSerializable("section");
-
-
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		// Empty list? Ask for some items!
-		BusHelper.post(new GalleryRequestingMoreElementsEvent(section));
+		if (adapter.isEmpty()) {
+			BusHelper.post(new GalleryRequestingMoreElementsEvent(section));
+		}
 
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		Log.d(TAG, "[NewsGalleryFragment - onPause] - (line 55): " + "pausing "+section.getParam());
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		Log.d(TAG, "[NewsGalleryFragment - onDestroy] - (line 63): " + "destroying "+section.getParam());
 	}
 
 	@Subscribe
 	public void onItemsAvailableEvent(GalleryItemsAvailableEvent<Item, Section> event) {
-		if (event.getSection() .equals(section)) {
+		if (event.getSection().equals(section)) {
 			super.onItemsAvailableEvent(event);
 		}
+	}
 
+	/**
+	 * Click on a gallery item
+	 *
+	 * @param position Position of clicked item
+	 */
+	@OnItemClick(R.id.photo_list)
+	public void onItemClick(int position) {
+		BusHelper.post(new NewsItemChosen(section, adapter.getItem(position)));
 	}
 }
