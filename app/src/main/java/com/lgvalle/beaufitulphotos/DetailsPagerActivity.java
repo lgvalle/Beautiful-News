@@ -86,7 +86,7 @@ public class DetailsPagerActivity extends BaseActivity {
 	@Override
 	protected void initActionBar() {
 		super.initActionBar();
-		getSupportActionBar().hide();
+		//getSupportActionBar().hide();
 	}
 
 	@Override

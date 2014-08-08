@@ -216,11 +216,6 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 		startActivity(i);
 	}
 
-	private void actionBarToTitle() {
-		getSupportActionBar().hide();
-
-	}
-
 	private void actionBarToTabs() {
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);

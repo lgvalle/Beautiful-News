@@ -30,7 +30,7 @@ public class ElPaisModule {
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint(END_POINT)
 
-				.setLogLevel(RestAdapter.LogLevel.FULL)
+				//.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setConverter(new SimpleXMLConverter())
 				.build();
 
