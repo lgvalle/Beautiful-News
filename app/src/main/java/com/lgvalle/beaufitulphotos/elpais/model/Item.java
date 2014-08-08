@@ -19,8 +19,8 @@ public class Item implements Parcelable {
 
 	@Element(required = false)
 	private String title;
-	@Element(required = false)
-	private String description;
+	@ElementList(entry="description", inline=true, required = false)
+	private List<String> description;
 	@Element(required = false)
 	@Namespace(reference = "http://purl.org/rss/1.0/modules/content/", prefix = "content")
 	private String encoded;
@@ -58,11 +58,11 @@ public class Item implements Parcelable {
 	}
 
 
-	public String getDescription() {
+	public List<String> getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(List<String> description) {
 		this.description = description;
 	}
 
@@ -117,7 +117,7 @@ public class Item implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.title);
-		dest.writeString(this.description);
+		dest.writeStringList(this.description);
 		dest.writeString(this.encoded);
 		dest.writeString(this.pubDate);
 		dest.writeString(this.link);
@@ -126,7 +126,8 @@ public class Item implements Parcelable {
 
 	private Item(Parcel in) {
 		this.title = in.readString();
-		this.description = in.readString();
+		description = new ArrayList();
+		in.readStringList(description);
 		this.encoded = in.readString();
 		this.pubDate = in.readString();
 		this.link = in.readString();

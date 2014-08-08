@@ -39,7 +39,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	/* Actionbar title */
 	private String title;
 
-	Section sections[] = {Section.Portada, Section.Internacional, Section.Sociedad, Section.Deportes};
+	Section sections[];
 	private BeautifulNewsPresenterImpl presenter;
 	/* Views */
 	@InjectView(R.id.sliding_layout)
@@ -129,6 +129,8 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	protected void initLayout() {
 		ButterKnife.inject(this);
 
+
+
 		GalleriesPagerAdapter adapter = new GalleriesPagerAdapter(getSupportFragmentManager(), sections);
 
 		// Listen to details panel to act in actionbar
@@ -147,10 +149,19 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 		);
 	}
 
+	private void buildSections() {
+		String[] sections_array = getResources().getStringArray(R.array.sections_url);
+		sections = new Section[sections_array.length];
+		for (int i=0;i<sections.length;i++) {
+			sections[i] = new Section(sections_array[i], R.string.section_portada);
+		}
+	}
+
 	@Override
 	protected void initActionBar() {
 		super.initActionBar();
 		actionBarToTabs();
+		buildSections();
 		// Add 3 tabs, specifying the tab's text and TabListener
 		for (int i = 0; i < sections.length; i++) {
 			ActionBar.Tab tab = getSupportActionBar().newTab().setText(sections[i].getTitle()).setTabListener(new ActionBar.TabListener() {

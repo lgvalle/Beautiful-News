@@ -1,12 +1,12 @@
 @font-face {
-    font-family: 'RobotoCondensed';
-    src: url('file:///android_asset/fonts/RobotoCondensed-Regular.ttf'); /* but this does */
+    font-family: 'NoticiaText';
+    src: url('file:///android_asset/fonts/NoticiaText-Regular.ttf'); /* but this does */
 }
 
 body {
-    font-family: RobotoCondensed;
+    font-family: NoticiaText;
     color: #424242; /* grey_800 */
-    font-size: 22px;
+    font-size: 18px;
     margin: 0px;
     padding: 0px;
 }

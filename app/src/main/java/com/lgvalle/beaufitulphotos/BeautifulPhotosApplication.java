@@ -12,7 +12,7 @@ public class BeautifulPhotosApplication extends Application {
 		super.onCreate();
 		// Init service module
 		// Replace font typeface in all application
-		TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/RobotoCondensed-Regular.ttf");
+		TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "fonts/NoticiaText-Regular.ttf");
 	}
 
 }

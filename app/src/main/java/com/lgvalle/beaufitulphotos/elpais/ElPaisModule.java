@@ -1,5 +1,6 @@
 package com.lgvalle.beaufitulphotos.elpais;
 
+
 import retrofit.RestAdapter;
 import retrofit.converter.SimpleXMLConverter;
 
@@ -7,7 +8,7 @@ import retrofit.converter.SimpleXMLConverter;
  * Created by lgvalle on 31/07/14.
  */
 public class ElPaisModule {
-	private static final String END_POINT = "http://ep00.epimg.net/rss/";
+	private static final String END_POINT = "http://elpais.com/rss/";
 	private static final ElPaisService service;
 
 	static {
@@ -25,11 +26,11 @@ public class ElPaisModule {
 
 
 
-
 		// Configure an adapter for this client
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint(END_POINT)
-				//.setLogLevel(RestAdapter.LogLevel.FULL)
+
+				.setLogLevel(RestAdapter.LogLevel.FULL)
 				.setConverter(new SimpleXMLConverter())
 				.build();
 

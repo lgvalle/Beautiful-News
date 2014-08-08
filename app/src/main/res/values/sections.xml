@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string-array name="sections_url">
+		<item>elpais/portada-f01.xml</item>
+		<item>internacional/portada-f01.xml</item>
+		<item>politica/portada-f01.xml</item>
+		<item>tags/espana_a-f01.xml</item>
+		<item>economia/portada-f01.xml</item>
+		<item>tecnologia/portada-f01.xml</item>
+		<item>deportes/portada-f01.xml</item>
+		<item>sociedad/portada-f01.xml</item>
+		<item>tags/salud_a-f01.xml</item>
+		<item>tags/c_ciencia-f01.xml</item>
+		<item>elpais/gente-f01.xml</item>
+		<item>cultura/television-f01.xml</item>
+		<item>elpais/opinion-f01.xml</item>
+		<item>elpais/vinetas-f01.xml</item>
+		<item>cultura/portada-f01.xml</item>
+		<item>tags/cine_a-f01.xml</item>
+		<item>tags/musica_a-f01.xml</item>
+		<item>elpais/motor-f01.xml</item>
+		<item>elpais/album-f01/01.xml</item>
+		<item>elpais/album-f01/02.xml</item>
+		<item>elpais/album-f01/03.xml</item>
+		<item>elpais/album-f01/04.xml</item>
+		<item>elpais/album-f01/05.xml</item>
+		<item>tags/o_video.xml</item>
+		<item>ccaa/andalucia-f01.xml</item>
+		<item>ccaa/catalunya-f01.xml</item>
+		<item>ccaa/galicia-f01.xml</item>
+		<item>ccaa/madrid-f01.xml</item>
+		<item>ccaa/paisvasco-f01.xml</item>
+		<item>ccaa/valencia-f01.xml</item>
+		<item>tags/noticias_mas_vistas-f01.xml</item>
+	</string-array>
+
+</resources>

@@ -1,6 +1,7 @@
 package com.lgvalle.beaufitulphotos.gallery;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,9 @@ public class NewsItemRenderer extends Renderer<Item> {
 	@Override
 	public View render(Context ctx) {
 		// Load photo
-		PicassoHelper.load(ctx, getContent().getImageURLSmall(), ivPhoto);
+		if (!TextUtils.isEmpty(getContent().getImageURLSmall())) {
+			PicassoHelper.load(ctx, getContent().getImageURLSmall(), ivPhoto);
+		}
 
 		// Set photo title
 		tvPhotoTitle.setText(getContent().getTitle());

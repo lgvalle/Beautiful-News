@@ -113,7 +113,7 @@ public class DetailsFragment extends BaseFragment {
 
 	private void bindTexts(final Item item) {
 		tvTitular.setText(item.getTitle());
-		tvEntradilla.setText(item.getDescription());
+		tvEntradilla.setText(item.getDescription().get(0));
 		tvAutor.setText(item.getPubDate());
 		tvAutor.requestFocus();
 

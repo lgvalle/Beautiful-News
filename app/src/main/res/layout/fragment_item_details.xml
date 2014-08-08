@@ -24,12 +24,11 @@
 			android:adjustViewBounds="true"
 			android:scaleType="centerCrop" />
 
-
-
 		<LinearLayout
 			android:layout_below="@+id/photo"
 			android:layout_width="wrap_content"
 			android:orientation="vertical"
+			android:background="@color/grey_50"
 			android:animateLayoutChanges="true"
 			android:layout_height="match_parent">
 
@@ -64,7 +63,7 @@
 
 			<WebView
 				android:id="@+id/item_cuerpo"
-				android:layout_margin="10dp"
+				style="@style/NewsElement.WebBody"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent" />
 		</LinearLayout>
