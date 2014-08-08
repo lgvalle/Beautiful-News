@@ -170,6 +170,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 					if (pager != null) {
 						pager.setCurrentItem(tab.getPosition());
 					}
+					getSupportActionBar().show();
 				}
 
 				@Override
@@ -182,9 +183,6 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 
 				}
 			});
-			if (i == 0) {
-				tab.setIcon(R.drawable.tab_portada);
-			}
 			getSupportActionBar().addTab(tab);
 
 		}
