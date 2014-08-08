@@ -113,7 +113,7 @@ public class DetailsFragment extends BaseFragment {
 
 	private void bindTexts(final Item item) {
 		tvTitular.setText(item.getTitle());
-		tvEntradilla.setText(item.getDescription().get(0));
+		//tvEntradilla.setText(item.getDescs().get(0));
 		tvAutor.setText(item.getPubDate());
 		tvAutor.requestFocus();
 
@@ -121,7 +121,7 @@ public class DetailsFragment extends BaseFragment {
 		// Build webview
 		StringBuilder sb = new StringBuilder();
 		sb.append(getActivity().getString(R.string.html_header));
-		sb.append(item.getEncoded());
+		sb.append(item.getDescription().get(0));
 		sb.append(getActivity().getString(R.string.html_footer));
 		tvCuerpo.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html; charset=UTF-8", "utf-8", null);
 		tvCuerpo.setBackgroundColor(0x00000000);
