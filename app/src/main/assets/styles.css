@@ -10,3 +10,19 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
+genre {
+	display: none;
+}
+
+subtitle {
+	display: none;
+}
+
+imagen_titulo {
+	display: none;
+}
+
+imagen_pie {
+	display: none;
+}

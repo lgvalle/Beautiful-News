@@ -2,9 +2,7 @@ package com.lgvalle.beaufitulphotos.gallery;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,9 +75,6 @@ public class DetailsFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 		BusHelper.register(this);
-
-		getActivity().getActionBar().hide();
-
 	}
 
 	@Override
@@ -122,7 +117,7 @@ public class DetailsFragment extends BaseFragment {
 		assert (item != null);
 		// Start by loading thumbnail photo for background image (this should be instant) Then load current large photo
 		PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhoto);
-		PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhotoEnlarged);
+
 	}
 
 	private void bindTexts(final Item item) {
@@ -139,15 +134,6 @@ public class DetailsFragment extends BaseFragment {
 		tvCuerpo.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html; charset=UTF-8", "utf-8", null);
 		tvCuerpo.setBackgroundColor(0x00000000);
 	}
-
-	private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
-			= new ViewTreeObserver.OnGlobalLayoutListener() {
-		@Override
-		public void onGlobalLayout() {
-			Log.d(TAG, "[DetailsFragment - onGlobalLayout] - (line 135): " + "global layout");
-		}
-	};
-
 
 	/**
 	 * Execute spring animations
@@ -185,7 +171,7 @@ public class DetailsFragment extends BaseFragment {
 			ivPhotoEnlarged.setVisibility(View.GONE);
 		} else {
 			ivPhoto.setVisibility(View.GONE);
-
+			PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhotoEnlarged);
 			ivPhotoEnlarged.setVisibility(View.VISIBLE);
 		}
 

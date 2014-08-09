@@ -23,16 +23,12 @@ import java.util.ArrayList;
  * Finally, the activity (screen) creates a presenter and ask for photos. Results communication will happen through the event bus
  */
 public class DetailsPagerActivity extends BaseActivity {
-	static final String FRAGMENT_GALLERY_TAG = "fragment_gallery_tag";
-	static final String FRAGMENT_DETAILS_TAG = "fragment_details_tag";
 	public static final String INTENT_EXTRA_ITEMS = "intent_extra_items";
 	public static final String INTENT_EXTRA_SECTION = "intent_extra_section";
 	public static final String INTENT_EXTRA_INDEX = "intent_extra_index";
-	/* Manage all business logic for this activity */
-
 	/* Actionbar title */
 	private String title;
-
+	/* Manage all business logic for this activity */
 	private BeautifulNewsPresenterImpl presenter;
 
 	@InjectView(R.id.pager)
@@ -83,13 +79,12 @@ public class DetailsPagerActivity extends BaseActivity {
 
 		// Scroll to selected item
 		pager.setCurrentItem(index);
-
 	}
 
 	@Override
 	protected void initActionBar() {
 		super.initActionBar();
-		//getSupportActionBar().hide();
+		getSupportActionBar().hide();
 	}
 
 	@Override
