@@ -2,7 +2,9 @@ package com.lgvalle.beaufitulphotos.gallery;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.facebook.rebound.*;
 import com.lgvalle.beaufitulphotos.BaseFragment;
 import com.lgvalle.beaufitulphotos.R;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
+import com.lgvalle.beaufitulphotos.elpais.model.Section;
 import com.lgvalle.beaufitulphotos.events.NewsItemChosen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.lgvalle.beaufitulphotos.utils.PicassoHelper;
@@ -28,7 +31,8 @@ public class DetailsFragment extends BaseFragment {
 	private static final String TAG = DetailsFragment.class.getSimpleName();
 	/* Animations */
 	private static final SpringConfig SPRING_CONFIG = SpringConfig.fromOrigamiTensionAndFriction(10, 10);
-	public static final String INTENT_EXTRAS_ITEM = "item";
+	public static final String INTENT_EXTRA_ITEM = "item";
+	public static final String INTENT_EXTRA_SECTION = "section";
 	private Spring mSpring;
 	/* Views */
 	@InjectView(R.id.parallax_scrollview)
@@ -46,11 +50,14 @@ public class DetailsFragment extends BaseFragment {
 	@InjectView(R.id.item_cuerpo)
 	WebView tvCuerpo;
 	private Item item;
+	private Section section;
+	private double scrolled;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		item = getArguments().getParcelable(INTENT_EXTRAS_ITEM);
+		item = getArguments().getParcelable(INTENT_EXTRA_ITEM);
+		section = getArguments().getParcelable(INTENT_EXTRA_SECTION);
 		// Setup the Spring by creating a SpringSystem adding a SimpleListener that renders the
 		// animation whenever the spring is updated.
 		mSpring = SpringSystem.create().createSpring().setSpringConfig(SPRING_CONFIG).addListener(new SimpleSpringListener() {
@@ -60,6 +67,9 @@ public class DetailsFragment extends BaseFragment {
 				animate();
 			}
 		});
+
+
+
 	}
 
 
@@ -67,6 +77,8 @@ public class DetailsFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 		BusHelper.register(this);
+
+		getActivity().getActionBar().hide();
 
 	}
 
@@ -76,10 +88,11 @@ public class DetailsFragment extends BaseFragment {
 		BusHelper.unregister(this);
 	}
 
-	public static DetailsFragment newInstance(Item item) {
+	public static DetailsFragment newInstance(Item item, Section section) {
 		DetailsFragment f = new DetailsFragment();
 		Bundle args = new Bundle();
-		args.putParcelable(INTENT_EXTRAS_ITEM, item);
+		args.putParcelable(INTENT_EXTRA_ITEM, item);
+		args.putParcelable(INTENT_EXTRA_SECTION, section);
 		f.setArguments(args);
 		return f;
 	}
@@ -109,23 +122,31 @@ public class DetailsFragment extends BaseFragment {
 		assert (item != null);
 		// Start by loading thumbnail photo for background image (this should be instant) Then load current large photo
 		PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhoto);
+		PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhotoEnlarged);
 	}
 
 	private void bindTexts(final Item item) {
 		tvTitular.setText(item.getTitle());
-		//tvEntradilla.setText(item.getDescs().get(0));
+		tvTitular.setBackgroundColor(section.getColor());
+		tvEntradilla.setText(item.getDescription().get(0));
 		tvAutor.setText(item.getPubDate());
-		tvAutor.requestFocus();
-
 
 		// Build webview
 		StringBuilder sb = new StringBuilder();
 		sb.append(getActivity().getString(R.string.html_header));
-		sb.append(item.getDescription().get(0));
+		sb.append(item.getDescription().get(1));
 		sb.append(getActivity().getString(R.string.html_footer));
 		tvCuerpo.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html; charset=UTF-8", "utf-8", null);
 		tvCuerpo.setBackgroundColor(0x00000000);
 	}
+
+	private ViewTreeObserver.OnGlobalLayoutListener mGlobalLayoutListener
+			= new ViewTreeObserver.OnGlobalLayoutListener() {
+		@Override
+		public void onGlobalLayout() {
+			Log.d(TAG, "[DetailsFragment - onGlobalLayout] - (line 135): " + "global layout");
+		}
+	};
 
 
 	/**
@@ -164,7 +185,7 @@ public class DetailsFragment extends BaseFragment {
 			ivPhotoEnlarged.setVisibility(View.GONE);
 		} else {
 			ivPhoto.setVisibility(View.GONE);
-			PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhotoEnlarged);
+
 			ivPhotoEnlarged.setVisibility(View.VISIBLE);
 		}
 

@@ -1,32 +1,59 @@
 package com.lgvalle.beaufitulphotos.elpais.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by lgvalle on 02/08/14.
  */
-public class Section implements Serializable{
-	/*
-	Portada("elpais", R.string.section_portada),
-	Politica("politica", R.string.section_politica),
-	Internacional("internacional", R.string.section_internacional),
-	Sociedad("sociedad", R.string.section_sociedad),
-	Deportes("deportes", R.string.section_deportes);
-
-*/
+public class Section implements Parcelable{
 	private final String param;
-	private final int title;
+	private final String title;
+	private final int color;
 
-	public Section(String param, int title) {
+	public Section(String param, String title, int color) {
 		this.param = param;
 		this.title = title;
+		this.color = color;
 	}
 
 	public String getParam() {
 		return param;
 	}
 
-	public int getTitle() {
+	public String getTitle() {
 		return title;
 	}
+
+	public int getColor() {
+		return color;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.param);
+		dest.writeString(this.title);
+		dest.writeInt(this.color);
+	}
+
+	private Section(Parcel in) {
+		this.param = in.readString();
+		this.title = in.readString();
+		this.color = in.readInt();
+	}
+
+	public static final Creator<Section> CREATOR = new Creator<Section>() {
+		public Section createFromParcel(Parcel source) {
+			return new Section(source);
+		}
+
+		public Section[] newArray(int size) {
+			return new Section[size];
+		}
+	};
 }

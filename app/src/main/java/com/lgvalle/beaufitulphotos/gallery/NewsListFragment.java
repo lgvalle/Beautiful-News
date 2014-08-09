@@ -27,7 +27,7 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 	public static NewsListFragment newInstance(Section section) {
 		NewsListFragment f = new NewsListFragment();
 		Bundle args = new Bundle();
-		args.putSerializable("section", section);
+		args.putParcelable("section", section);
 		f.setArguments(args);
 		return f;
 	}
@@ -35,7 +35,7 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.section = (Section) getArguments().getSerializable("section");
+		this.section = getArguments().getParcelable("section");
 	}
 
 	@Override

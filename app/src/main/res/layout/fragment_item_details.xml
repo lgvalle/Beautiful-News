@@ -8,6 +8,7 @@
 	android:layout_height="match_parent"
 	app:parallax_factor="2"
 	app:alpha_factor="2"
+	app:circular_parallax="true"
 	tools:context=".BeautifulNewsActivity">
 
 	<RelativeLayout
@@ -28,7 +29,7 @@
 			android:layout_below="@+id/photo"
 			android:layout_width="wrap_content"
 			android:orientation="vertical"
-			android:background="@color/grey_50"
+			android:background="@color/theme_bg"
 			android:animateLayoutChanges="true"
 			android:layout_height="match_parent">
 
@@ -42,10 +43,13 @@
 
 			<TextView
 				android:id="@+id/item_titular"
+				android:background="@drawable/actionbar_background"
 				tools:text="Titular de la noticia "
 				style="@style/NewsElement.Titular"
-				android:layout_width="wrap_content"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content" />
+
+
 
 			<TextView
 				android:id="@+id/item_entradilla"

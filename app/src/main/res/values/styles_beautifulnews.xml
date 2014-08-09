@@ -24,7 +24,7 @@
         <item name="popupMenuStyle">@style/PopupMenu.Beautifulnews</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Beautifulnews</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle.Beautifulnews</item>
-        <item name="actionDropDownStyle">@style/DropDownNav.Beautifulnews</item>
+	    <item name="actionDropDownStyle">@style/DropDownNav.Beautifulnews</item>
         <item name="actionBarStyle">@style/ActionBar.Solid.Beautifulnews</item>
         <item name="actionModeBackground">@drawable/cab_background_top_beautifulnews</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_beautifulnews</item>
@@ -58,8 +58,8 @@
     <style name="ActionBarTabStyle.Beautifulnews" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_beautifulnews</item>
     </style>
-	
-    <style name="DropDownNav.Beautifulnews" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
+
+	<style name="DropDownNav.Beautifulnews" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_beautifulnews</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_beautifulnews</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_beautifulnews</item>

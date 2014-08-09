@@ -51,9 +51,10 @@ public class BeautifulNewsPresenterImpl {
 	@Subscribe
 	public void onNewsItemChosen(NewsItemChosen event) {
 		if (event != null && event.getItem() != null) {
-			List<Item> section = map.get(event.getSection());
-			int index = section.indexOf(event.getItem());
-			screen.openDetails(index, section);
+			Section section = event.getSection();
+			List<Item> items = map.get(section);
+			int index = items.indexOf(event.getItem());
+			screen.openDetails(index, items, section);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package com.lgvalle.beaufitulphotos;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -151,9 +152,11 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 
 	private void buildSections() {
 		String[] sections_array = getResources().getStringArray(R.array.sections_url);
+		String[] sections_name_array = getResources().getStringArray(R.array.sections_name);
+		int[] sections_color_array = getResources().getIntArray(R.array.sections_color);
 		sections = new Section[sections_array.length];
 		for (int i=0;i<sections.length;i++) {
-			sections[i] = new Section(sections_array[i], R.string.section_portada);
+			sections[i] = new Section(sections_array[i], sections_name_array[i], sections_color_array[i]);
 		}
 	}
 
@@ -164,6 +167,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 		buildSections();
 		// Add 3 tabs, specifying the tab's text and TabListener
 		for (int i = 0; i < sections.length; i++) {
+			final int finalI = i;
 			ActionBar.Tab tab = getSupportActionBar().newTab().setText(sections[i].getTitle()).setTabListener(new ActionBar.TabListener() {
 				@Override
 				public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -171,6 +175,8 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 						pager.setCurrentItem(tab.getPosition());
 					}
 					getSupportActionBar().show();
+					getSupportActionBar().setStackedBackgroundDrawable(new ColorDrawable(sections[finalI].getColor()));
+
 				}
 
 				@Override
@@ -207,10 +213,11 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 
 
 	@Override
-	public void openDetails(int itemIndex, List<Item> items) {
+	public void openDetails(int itemIndex, List<Item> items, Section section) {
 		Intent i = new Intent(this, DetailsPagerActivity.class);
-		i.putExtra(DetailsPagerActivity.INTENT_EXTRAS_INDEX, itemIndex);
-		i.putParcelableArrayListExtra(DetailsPagerActivity.INTENT_EXTRAS_ITEMS, (ArrayList<? extends Parcelable>) items);
+		i.putExtra(DetailsPagerActivity.INTENT_EXTRA_INDEX, itemIndex);
+		i.putExtra(DetailsPagerActivity.INTENT_EXTRA_SECTION, section);
+		i.putParcelableArrayListExtra(DetailsPagerActivity.INTENT_EXTRA_ITEMS, (ArrayList<? extends Parcelable>) items);
 		startActivity(i);
 	}
 

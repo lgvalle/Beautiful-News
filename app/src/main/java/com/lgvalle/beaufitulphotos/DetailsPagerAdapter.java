@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
+import com.lgvalle.beaufitulphotos.elpais.model.Section;
 import com.lgvalle.beaufitulphotos.gallery.DetailsFragment;
 
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.List;
 public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private final List<Item> items;
+	private final Section section;
 
-	public DetailsPagerAdapter(FragmentManager fm, List<Item> items) {
+	public DetailsPagerAdapter(FragmentManager fm, List<Item> items, Section section) {
 		super(fm);
 		this.items = items;
+		this.section = section;
 	}
 
 	@Override
@@ -27,7 +30,7 @@ public class DetailsPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int i) {
-		DetailsFragment f = DetailsFragment.newInstance(items.get(i));
+		DetailsFragment f = DetailsFragment.newInstance(items.get(i), section);
 		return f;
 	}
 

@@ -24,7 +24,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Beautifulnews</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Beautifulnews</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Beautifulnews</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Beautifulnews</item>
+	    <item name="android:actionDropDownStyle">@style/DropDownNav.Beautifulnews</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Beautifulnews</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_beautifulnews</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_beautifulnews</item>

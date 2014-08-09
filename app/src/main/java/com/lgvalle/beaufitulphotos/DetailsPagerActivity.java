@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
+import com.lgvalle.beaufitulphotos.elpais.model.Section;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
 
@@ -24,8 +25,9 @@ import java.util.ArrayList;
 public class DetailsPagerActivity extends BaseActivity {
 	static final String FRAGMENT_GALLERY_TAG = "fragment_gallery_tag";
 	static final String FRAGMENT_DETAILS_TAG = "fragment_details_tag";
-	public static final String INTENT_EXTRAS_ITEMS = "intent_extras_items";
-	public static final String INTENT_EXTRAS_INDEX = "intent_extras_index";
+	public static final String INTENT_EXTRA_ITEMS = "intent_extra_items";
+	public static final String INTENT_EXTRA_SECTION = "intent_extra_section";
+	public static final String INTENT_EXTRA_INDEX = "intent_extra_index";
 	/* Manage all business logic for this activity */
 
 	/* Actionbar title */
@@ -37,13 +39,14 @@ public class DetailsPagerActivity extends BaseActivity {
 	ViewPager pager;
 	private ArrayList<Item> item;
 	private int index;
-
+	private Section section;
 
 	@Override
 	protected void getExtras() {
 		super.getExtras();
-		item = getIntent().getExtras().getParcelableArrayList(INTENT_EXTRAS_ITEMS);
-		index = getIntent().getExtras().getInt(INTENT_EXTRAS_INDEX);
+		item = getIntent().getExtras().getParcelableArrayList(INTENT_EXTRA_ITEMS);
+		index = getIntent().getExtras().getInt(INTENT_EXTRA_INDEX);
+		section = getIntent().getExtras().getParcelable(INTENT_EXTRA_SECTION);
 	}
 
 	@Override
@@ -72,7 +75,7 @@ public class DetailsPagerActivity extends BaseActivity {
 	protected void initLayout() {
 		ButterKnife.inject(this);
 
-		DetailsPagerAdapter adapter = new DetailsPagerAdapter(getSupportFragmentManager(), item);
+		DetailsPagerAdapter adapter = new DetailsPagerAdapter(getSupportFragmentManager(), item, section);
 
 		// Add Gallery Fragment to main_content frame. If this is a tablet there will be another frame to add content
 		pager.setAdapter(adapter);

@@ -1,6 +1,7 @@
 package com.lgvalle.beaufitulphotos.interfaces;
 
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
+import com.lgvalle.beaufitulphotos.elpais.model.Section;
 
 import java.util.List;
 
@@ -26,6 +27,6 @@ public interface BeautifulPhotosScreen {
 	void updateTitle(int titleId);
 
 
-	public void openDetails(int index, List<Item> items);
+	public void openDetails(int index, List<Item> items, Section section);
 
 }
