@@ -21,6 +21,7 @@
 
     <style name="Theme.Beautifulnews" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_beautifulnews</item>
+	    <item name="android:typeface">serif</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Beautifulnews</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Beautifulnews</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Beautifulnews</item>

@@ -118,36 +118,36 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 
 	private void createDrawerItems() {
 		llDrawerItems.removeAllViews();
+		int i=0;
 		for (Section section : sections) {
-			View v = createDrawerItem(section);
+			View v = createDrawerItem(section, i);
 			llDrawerItems.addView(v);
+			i++;
 		}
 	}
 
-	private View createDrawerItem(final Section s) {
+	private View createDrawerItem(final Section s, final int index) {
 		View view = getLayoutInflater().inflate(R.layout.drawer_item, llDrawerItems, false);
 		TextView title = (TextView) view.findViewById(R.id.drawer_item_title);
 		title.setText(s.getTitle());
 
-		//
-		//
 		View indicator = view.findViewById(R.id.drawer_item_indicator);
 		GradientDrawable shapeDrawable = (GradientDrawable)indicator.getBackground();
 		shapeDrawable.setColor(s.getColor());
 
-
-
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				onSectionClicked(s);
+				onSectionClicked(index);
+
 			}
 		});
 		return view;
 	}
 
-	private void onSectionClicked(Section s) {
-
+	private void onSectionClicked(int index) {
+		pager.setCurrentItem(index);
+		drawer.closeDrawer(Gravity.START);
 	}
 
 	private void buildSections() {
