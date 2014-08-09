@@ -65,9 +65,6 @@ public class DetailsFragment extends BaseFragment {
 				animate();
 			}
 		});
-
-
-
 	}
 
 
@@ -163,6 +160,13 @@ public class DetailsFragment extends BaseFragment {
 		i.putExtra(Intent.EXTRA_TEXT, item.getLink());
 		startActivity(Intent.createChooser(i, getString(R.string.share)));
 	}
+
+	@OnClick(R.id.action_up)
+	public void onClickBack() {
+		getActivity().finish();
+	}
+
+
 
 	@OnClick({R.id.photo, R.id.photo_enlarged})
 	public void onClickPhoto() {

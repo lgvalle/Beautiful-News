@@ -11,11 +11,11 @@ import com.lgvalle.beaufitulphotos.gallery.NewsListFragment;
 /**
  * Created by lgvalle on 02/08/14.
  */
-public class GalleriesPagerAdapter extends FragmentStatePagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
 	private final Section[] sections;
 
-	public GalleriesPagerAdapter(FragmentManager fm, Section[] sections) {
+	public SectionsPagerAdapter(FragmentManager fm, Section[] sections) {
 		super(fm);
 		this.sections = sections;
 	}

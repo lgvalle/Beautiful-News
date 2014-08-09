@@ -7,7 +7,7 @@
 		<item>politica/portada-f01.xml</item>
 		<item>tags/espana_a-f01.xml</item>
 		<item>economia/portada-f01.xml</item>
-		<item>tecnologia/portada-f01.xml</item>
+		<!--<item>tecnologia/portada-f01.xml</item>-->
 		<item>deportes/portada-f01.xml</item>
 		<item>sociedad/portada-f01.xml</item>
 		<item>elpais/gente-f01.xml</item>
@@ -33,7 +33,7 @@
 		<item>politica</item>
 		<item>españa</item>
 		<item>economia</item>
-		<item>tecnologia</item>
+		<!--<item>tecnologia</item>-->
 		<item>deportes</item>
 		<item>sociedad</item>
 		<item>gente</item>
@@ -59,7 +59,7 @@
 		<item>@color/red_500</item>
 		<item>@color/pink_500</item>
 		<item>@color/light_blue_500</item>
-		<item>@color/green_500</item>
+		<!--<item>@color/green_500</item>-->
 		<item>@color/teal_500</item>
 		<item>@color/red_900</item>
 		<item>@color/pink_900</item>

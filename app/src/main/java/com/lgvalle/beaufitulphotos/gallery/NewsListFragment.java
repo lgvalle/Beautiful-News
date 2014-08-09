@@ -1,6 +1,9 @@
 package com.lgvalle.beaufitulphotos.gallery;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import butterknife.OnItemClick;
 import com.lgvalle.beaufitulphotos.R;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
@@ -17,6 +20,7 @@ import com.squareup.otto.Subscribe;
  */
 public class NewsListFragment extends BaseElementListFragment<Item> {
 	private static final String TAG = NewsListFragment.class.getSimpleName();
+	private static final String INTENT_EXTRA_SECTION = "section";
 	private Section section;
 
 	@Override
@@ -27,7 +31,7 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 	public static NewsListFragment newInstance(Section section) {
 		NewsListFragment f = new NewsListFragment();
 		Bundle args = new Bundle();
-		args.putParcelable("section", section);
+		args.putParcelable(INTENT_EXTRA_SECTION, section);
 		f.setArguments(args);
 		return f;
 	}
@@ -35,7 +39,12 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.section = getArguments().getParcelable("section");
+		this.section = getArguments().getParcelable(INTENT_EXTRA_SECTION);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
@@ -45,7 +54,12 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 		if (adapter.isEmpty()) {
 			BusHelper.post(new GalleryRequestingMoreElementsEvent(section));
 		}
+	}
 
+	@Override
+	protected void initLayout() {
+		super.initLayout();
+		list.setBackgroundColor(section.getColor());
 	}
 
 	@Subscribe

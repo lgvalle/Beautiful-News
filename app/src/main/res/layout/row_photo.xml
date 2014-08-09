@@ -6,26 +6,22 @@
 
 	<ImageView
 		android:id="@+id/photo"
-		style="@style/PhotoThumbnail"
 		android:layout_width="match_parent"
-		android:adjustViewBounds="true"
-		android:layout_height="200dp" />
+		style="@style/PhotoThumbnail" />
 
 	<FrameLayout
-		android:layout_width="match_parent"
-		android:layout_alignParentBottom="true"
-		android:padding="10dp"
 		android:id="@+id/photo_title_frame"
-		android:background="@drawable/gradient_black"
-		android:layout_height="wrap_content">
-		<TextView
-			android:layout_width="match_parent"
-			android:id="@+id/photo_title"
-			style="@style/PhotoCaption"
-			android:text="Titulo de foto"
-			android:layout_height="wrap_content" />
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/PhotoFrame">
 
-		</FrameLayout>
+		<TextView
+			android:id="@+id/photo_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			style="@style/PhotoCaption" />
+
+	</FrameLayout>
 
 
 </RelativeLayout>

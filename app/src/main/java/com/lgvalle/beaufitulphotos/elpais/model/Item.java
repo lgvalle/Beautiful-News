@@ -19,9 +19,9 @@ public class Item implements Parcelable {
 
 	@Element(required = false)
 	private String title;
-	@ElementList(entry="descs", inline=true, required = false)
+	@ElementList(entry = "descs", inline = true, required = false)
 	private List<String> descs;
-	@ElementList(entry="description", inline=true, required = false)
+	@ElementList(entry = "description", inline = true, required = false)
 	@Namespace(reference = "http://search.yahoo.com/mrss/", prefix = "media")
 	private List<String> description;
 	@Element(required = false)
@@ -87,13 +87,20 @@ public class Item implements Parcelable {
 		String image = null;
 		if (enclosures != null) {
 			image = enclosures.get(0).getUrl();
+
 			if (enclosures.size() > 1) {
 				image = enclosures.get(1).getUrl();
 			}
+
 		}
 		return image;
 	}
 
+	/**
+	 * Biggest image possible
+	 *
+	 * @return
+	 */
 	public String getImageURLLarge() {
 		String image = null;
 		for (Enclosure enclosure : enclosures) {

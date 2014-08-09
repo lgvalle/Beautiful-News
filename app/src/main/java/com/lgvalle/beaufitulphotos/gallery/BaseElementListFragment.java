@@ -99,13 +99,8 @@ public abstract class BaseElementListFragment<T> extends BaseFragment {
 	}
 
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-	}
-
-	@Override
 	protected int getContentView() {
-		return R.layout.fragment_photos_list;
+		return R.layout.fragment_items_list;
 	}
 
 	@Override

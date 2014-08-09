@@ -10,6 +10,7 @@
 		android:layout_height="match_parent"
 		android:layout_gravity="start|bottom"
 		android:clipToPadding="false"
+		android:dividerHeight="4dp"
 		android:paddingTop="?attr/actionBarSize"
 		android:scrollbarStyle="outsideOverlay" />
 
@@ -18,5 +19,6 @@
 		style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:paddingTop="?attr/actionBarSize"
 		android:indeterminate="true" />
 </FrameLayout>

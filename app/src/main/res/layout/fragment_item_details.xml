@@ -82,5 +82,15 @@
 			android:background="@android:drawable/ic_menu_share"
 			android:layout_height="wrap_content" />
 
+		<ImageButton
+			android:layout_width="wrap_content"
+			android:padding="10dp"
+			android:id="@+id/action_up"
+			android:layout_margin="10dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:background="@drawable/ic_action_back"
+			android:layout_height="wrap_content" />
+
 	</RelativeLayout>
 </com.nirhart.parallaxscroll.views.ParallaxScrollView>

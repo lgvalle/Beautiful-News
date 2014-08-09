@@ -5,8 +5,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.view.View;
+import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -15,7 +18,6 @@ import com.lgvalle.beaufitulphotos.elpais.model.Item;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosScreen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,22 +34,16 @@ import java.util.List;
  * <p/>
  * Finally, the activity (screen) creates a presenter and ask for photos. Results communication will happen through the event bus
  */
-public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhotosScreen, SlidingUpPanelLayout.PanelSlideListener {
-	static final String FRAGMENT_GALLERY_TAG = "fragment_gallery_tag";
-	static final String FRAGMENT_DETAILS_TAG = "fragment_details_tag";
+public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhotosScreen {
 	/* Manage all business logic for this activity */
-
-	/* Actionbar title */
-	private String title;
-
-	Section sections[];
 	private BeautifulNewsPresenterImpl presenter;
-	/* Views */
-	@InjectView(R.id.sliding_layout)
-	SlidingUpPanelLayout panel;
-
+	private Section sections[];
 	@InjectView(R.id.pager)
 	ViewPager pager;
+	@InjectView(R.id.drawer_layout)
+	DrawerLayout drawer;
+	@InjectView(R.id.navdrawer_items)
+	LinearLayout llDrawerItems;
 
 
 	@Override
@@ -68,43 +64,6 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	}
 
 	@Override
-	public void onBackPressed() {
-		// If panel is expanded -> collapse
-		// If panel is not expanded forward call to super class (making activity close)
-		if (panel.collapsePanel()) {
-			actionBarToTabs();
-		} else {
-			super.onBackPressed();
-		}
-	}
-
-
-	@Override
-	public void onPanelAnchored(View view) {
-	}
-
-	@Override
-	public void onPanelHidden(View view) {
-	}
-
-	@Override
-	public void onPanelSlide(View view, float v) {
-	}
-
-	@Override
-	public void onPanelCollapsed(View view) {
-		// When panel collapsed restore actionbar title and UI elements
-		actionBarToTabs();
-		toggleUI(false);
-	}
-
-	@Override
-	public void onPanelExpanded(View view) {
-		// When panel expands (photo selected) always display actionbar with back button
-		toggleUI(true);
-	}
-
-	@Override
 	public void showError(int errorID) {
 		// Sample error managing with a Toast
 		Toast.makeText(this, getString(errorID), Toast.LENGTH_SHORT).show();
@@ -117,8 +76,8 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	 */
 	@Override
 	public void updateTitle(int titleRes) {
-		title = getString(titleRes);
-		getSupportActionBar().setTitle(title);
+		// //@author - lgvalle @date - 09/08/14 @time - 17:15
+		//TODO: [BeautifulNewsActivity - updateTitle] -
 	}
 
 	@Override
@@ -130,12 +89,11 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	protected void initLayout() {
 		ButterKnife.inject(this);
 
+		initDrawer();
 
 
-		GalleriesPagerAdapter adapter = new GalleriesPagerAdapter(getSupportFragmentManager(), sections);
+		SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager(), sections);
 
-		// Listen to details panel to act in actionbar
-		panel.setPanelSlideListener(this);
 		// Add Gallery Fragment to main_content frame. If this is a tablet there will be another frame to add content
 		pager.setAdapter(adapter);
 		// Bind pager to tabs
@@ -150,12 +108,27 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 		);
 	}
 
+	private void initDrawer() {
+		drawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+		createDrawerItems();
+		//populateDrawer();
+	}
+
+	private void createDrawerItems() {
+		llDrawerItems.removeAllViews();
+		for (Section section : sections) {
+			TextView view = (TextView) getLayoutInflater().inflate(R.layout.drawer_item, llDrawerItems, false);
+			view.setText(section.getTitle());
+			llDrawerItems.addView(view);
+		}
+	}
+
 	private void buildSections() {
 		String[] sections_array = getResources().getStringArray(R.array.sections_url);
 		String[] sections_name_array = getResources().getStringArray(R.array.sections_name);
 		int[] sections_color_array = getResources().getIntArray(R.array.sections_color);
 		sections = new Section[sections_array.length];
-		for (int i=0;i<sections.length;i++) {
+		for (int i = 0; i < sections.length; i++) {
 			sections[i] = new Section(sections_array[i], sections_name_array[i], sections_color_array[i]);
 		}
 	}
