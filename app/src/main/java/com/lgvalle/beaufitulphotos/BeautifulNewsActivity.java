@@ -2,12 +2,14 @@ package com.lgvalle.beaufitulphotos;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,10 +119,35 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	private void createDrawerItems() {
 		llDrawerItems.removeAllViews();
 		for (Section section : sections) {
-			TextView view = (TextView) getLayoutInflater().inflate(R.layout.drawer_item, llDrawerItems, false);
-			view.setText(section.getTitle());
-			llDrawerItems.addView(view);
+			View v = createDrawerItem(section);
+			llDrawerItems.addView(v);
 		}
+	}
+
+	private View createDrawerItem(final Section s) {
+		View view = getLayoutInflater().inflate(R.layout.drawer_item, llDrawerItems, false);
+		TextView title = (TextView) view.findViewById(R.id.drawer_item_title);
+		title.setText(s.getTitle());
+
+		//
+		//
+		View indicator = view.findViewById(R.id.drawer_item_indicator);
+		GradientDrawable shapeDrawable = (GradientDrawable)indicator.getBackground();
+		shapeDrawable.setColor(s.getColor());
+
+
+
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				onSectionClicked(s);
+			}
+		});
+		return view;
+	}
+
+	private void onSectionClicked(Section s) {
+
 	}
 
 	private void buildSections() {

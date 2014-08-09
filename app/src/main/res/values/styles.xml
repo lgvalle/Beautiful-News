@@ -60,4 +60,10 @@
 	<style name="NewsElement.WebBody">
 
 	</style>
+
+	<style name="DrawerItem">
+		<item name="android:textSize">18dp</item>
+		<item name="android:padding">10dp</item>
+		<item name="android:textColor">@color/grey_700</item>
+	</style>
 </resources>

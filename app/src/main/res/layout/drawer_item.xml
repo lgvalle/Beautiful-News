@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
 
-</TextView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:clickable="true"
+	android:padding="10dp"
+	android:background="@drawable/drawer_item_selector"
+	android:layout_height="wrap_content">
+
+	<TextView
+		android:id="@+id/drawer_item_title"
+		android:layout_width="match_parent"
+		style="@style/DrawerItem"
+		android:text="Portda"
+		android:gravity="center_vertical"
+		android:layout_centerVertical="true"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/drawer_item_indicator" />
+
+	<ImageView
+		android:layout_width="30dp"
+		android:background="@drawable/drawer_item_circle"
+		android:layout_height="30dp"
+		android:id="@+id/drawer_item_indicator"
+		android:layout_centerVertical="true"
+		/>
+
+
+</RelativeLayout>
+

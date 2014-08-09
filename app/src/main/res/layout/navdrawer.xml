@@ -16,10 +16,11 @@
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="260dp"
+    android:layout_width="200dp"
     android:layout_height="match_parent"
     android:id="@+id/navdrawer"
     android:layout_gravity="start"
+	android:paddingTop="?attr/actionBarSize"
     android:background="@color/grey_50">
 
     <LinearLayout android:layout_width="match_parent"

@@ -29,16 +29,16 @@
 
 	<string-array name="sections_name">
 		<item>@string/section_portada</item>
-		<item>internacional</item>
-		<item>politica</item>
-		<item>españa</item>
-		<item>economia</item>
+		<item>Internacional</item>
+		<item>Politica</item>
+		<item>España</item>
+		<item>Economia</item>
 		<!--<item>tecnologia</item>-->
-		<item>deportes</item>
-		<item>sociedad</item>
-		<item>gente</item>
-		<item>television</item>
-		<item>opinión</item>
+		<item>Deportes</item>
+		<item>Sociedad</item>
+		<item>Gente</item>
+		<item>Television</item>
+		<item>Opinión</item>
 		<item>viñetas</item>
 		<item>cultura</item>
 		<item>cine</item>
