@@ -2,6 +2,7 @@ package com.lgvalle.beaufitulnews.gallery;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.lgvalle.beaufitulnews.elpais.model.Section;
 import com.lgvalle.beaufitulnews.events.NewsItemChosen;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.lgvalle.beaufitulnews.utils.PicassoHelper;
+import com.lgvalle.beaufitulnews.utils.TimeHelper;
 import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 
 /**
@@ -44,7 +46,7 @@ public class DetailsFragment extends BaseFragment {
 	@InjectView(R.id.item_titular)
 	TextView tvTitular;
 	@InjectView(R.id.item_autor)
-	TextView tvAutor;
+	TextView tvDate;
 	@InjectView(R.id.item_cuerpo)
 	WebView tvCuerpo;
 	private Item item;
@@ -121,8 +123,9 @@ public class DetailsFragment extends BaseFragment {
 		tvTitular.setText(item.getTitle());
 		tvTitular.setBackgroundColor(section.getColor());
 		tvEntradilla.setText(item.getDescription().get(0));
-		tvAutor.setText(item.getPubDate());
+		tvDate.setText(DateUtils.formatDateTime(getActivity(), TimeHelper.getTimestamp(item.getPubDate()), DateUtils.FORMAT_SHOW_DATE));
 
+		// TODO Encapsulate?
 		// Build webview
 		StringBuilder sb = new StringBuilder();
 		sb.append(getActivity().getString(R.string.html_header));
@@ -137,7 +140,7 @@ public class DetailsFragment extends BaseFragment {
 	 */
 	private void animate() {
 		// Map the spring to info bar position so that its hidden off screen and bounces in on ui restore.
-		float position = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, tvTitular.getWidth()/2, 0);
+		float position = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, tvTitular.getWidth() / 2, 0);
 		float alpha = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, 0, 1);
 		tvTitular.setTranslationY(position);
 	}
@@ -165,8 +168,6 @@ public class DetailsFragment extends BaseFragment {
 	public void onClickBack() {
 		getActivity().finish();
 	}
-
-
 
 	@OnClick({R.id.photo, R.id.photo_enlarged})
 	public void onClickPhoto() {
