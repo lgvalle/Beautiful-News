@@ -22,6 +22,7 @@ import com.lgvalle.beaufitulphotos.elpais.model.Section;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulNewsPresenter;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulNewsScreen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
+import com.lgvalle.beaufitulphotos.utils.PrefsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -205,7 +206,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 	@Override
 	protected void initPresenter() {
 		// Init activity presenter with all it's dependencies
-		ItemStorage storage = new TimedCacheItemStorage(10000, PrefsManager.getInstance(this));
+		ItemStorage storage = new InPreferencesItemStorage(PrefsManager.getInstance(this));
 		OnlineItemRepository repository = new OnlineItemRepository(ElPaisModule.getService(), storage);
 
 		this.presenter = new BeautifulNewsPresenterImpl(repository, this);

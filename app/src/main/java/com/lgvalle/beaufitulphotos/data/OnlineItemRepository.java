@@ -16,7 +16,7 @@ import java.util.Map;
 public class OnlineItemRepository implements ItemRepository {
 	private static final String TAG = OnlineItemRepository.class.getSimpleName();
 	/* memory cache */
-	final Map<Section, List<Item>> map;
+	final Map<String, List<Item>> map;
 	final ElPaisService service;
 	final ItemStorage storage;
 
@@ -26,12 +26,18 @@ public class OnlineItemRepository implements ItemRepository {
 		this.storage = storage;
 		// Init memory cache with stored data
 		this.map = storage.getItemsMap();
+		Log.d(TAG, "[OnlineItemRepository - OnlineItemRepository] - (line 29): " + "map: "+map.size());
 	}
 
 	@Override
 	public void getItemsBySection(final Section section, final Callback<List<Item>> callback) {
 		// If items in memory -> return
-		List<Item> items = map.get(section);
+		List<Item> items = map.get(section.getParam());
+		Log.d(TAG, "[OnlineItemRepository - getItemsBySection] - (line 36): " + "map: "+map.size());
+		if (items != null)
+			Log.d(TAG, "[OnlineItemRepository - getItemsBySection] - (line 37): " + "items for "+section.getParam()+": "+items.size());
+
+
 		if (items != null && !items.isEmpty()) {
 			callback.success(items);
 		} else {
@@ -46,7 +52,7 @@ public class OnlineItemRepository implements ItemRepository {
 					}
 					List<Item> items = rss.getChannel().getItem();
 					// Save in memory cache
-					map.put(section, items);
+					map.put(section.getParam(), items);
 					// Notify results back
 					callback.success(items);
 				}

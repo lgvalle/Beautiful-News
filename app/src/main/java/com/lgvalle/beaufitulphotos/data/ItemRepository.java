@@ -9,11 +9,9 @@ import java.util.List;
  * Created by lgvalle on 10/08/14.
  */
 public interface ItemRepository {
+	public void getItemsBySection(Section section, OnlineItemRepository.Callback<List<Item>> callback);
 
-
-	void getItemsBySection(Section section, OnlineItemRepository.Callback<List<Item>> callback);
-
-	void storageItems();
+	public void storageItems();
 
 	public interface Callback<List> {
 		public void success(List items);

@@ -26,13 +26,10 @@ public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
 		this.screen = screen;
 	}
 
-	@Override
-	public void dispose() {
-		repository.storageItems();
-	}
 
 	/**
 	 * When a Section needs more elements
+	 *
 	 * @param event
 	 */
 	@Subscribe
@@ -42,7 +39,7 @@ public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
 			repository.getItemsBySection(section, new ItemRepository.Callback<List<Item>>() {
 				@Override
 				public void success(List<Item> items) {
-					BusHelper.post(new GalleryItemsAvailableEvent<Item, Section>(items, section));
+					BusHelper.post(new GalleryItemsAvailableEvent<>(items, section));
 				}
 			});
 		}
@@ -63,5 +60,10 @@ public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
 				}
 			});
 		}
+	}
+
+	@Override
+	public void dispose() {
+		repository.storageItems();
 	}
 }

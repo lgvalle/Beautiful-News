@@ -1,4 +1,4 @@
-package com.lgvalle.beaufitulphotos.data;
+package com.lgvalle.beaufitulphotos.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
