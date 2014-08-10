@@ -1,28 +1,16 @@
 @font-face {
     font-family: 'NoticiaText';
-    src: url('file:///android_asset/fonts/NoticiaText-Regular.ttf'); /* but this does */
+    src: url('file:///android_asset/fonts/NoticiaText-Regular.ttf');
 }
 
-body {
-    font-family: NoticiaText;
-    color: #424242; /* grey_800 */
-    font-size: 18px;
-    margin: 0px;
-    padding: 0px;
+body, span, div {
+    font-family: NoticiaText !important;
+    color: #424242 !important; /* grey_800 */
+    font-size: 18px !important;
+    margin: 0px !important;
+    padding: 0px !important;
 }
 
-genre {
-	display: none;
-}
-
-subtitle {
-	display: none;
-}
-
-imagen_titulo {
-	display: none;
-}
-
-imagen_pie {
+genre, subtitle, image_titulo_image_pie {
 	display: none;
 }

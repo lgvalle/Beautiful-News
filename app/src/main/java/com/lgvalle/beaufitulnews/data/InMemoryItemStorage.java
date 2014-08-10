@@ -2,7 +2,7 @@ package com.lgvalle.beaufitulnews.data;
 
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,12 +11,12 @@ import java.util.Map;
 public class InMemoryItemStorage implements ItemStorage {
 
 	@Override
-	public void saveItemsMap(Map<String, ArrayList<Item>> map) {
+	public void saveItemsMap(Map<String, List<Item>> map) {
 
 	}
 
 	@Override
-	public Map<String, ArrayList<Item>> getItemsMap() {
+	public Map<String, List<Item>> getItemsMap() {
 		return null;
 	}
 }

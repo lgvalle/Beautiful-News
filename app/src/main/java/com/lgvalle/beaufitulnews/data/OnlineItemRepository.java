@@ -17,7 +17,7 @@ import java.util.Map;
 public class OnlineItemRepository implements ItemRepository {
 	private static final String TAG = OnlineItemRepository.class.getSimpleName();
 	/* memory cache */
-	final Map<String, ArrayList<Item>> map;
+	final Map<String, List<Item>> map;
 	final ElPaisService service;
 	final ItemStorage storage;
 

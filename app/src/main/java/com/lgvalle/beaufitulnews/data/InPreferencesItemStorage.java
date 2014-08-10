@@ -2,11 +2,14 @@ package com.lgvalle.beaufitulnews.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 import com.lgvalle.beaufitulnews.utils.PrefsManager;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +36,7 @@ public class InPreferencesItemStorage implements ItemStorage {
 	}
 
 	@Override
-	public void saveItemsMap(Map<String, ArrayList<Item>> map) {
+	public void saveItemsMap(Map<String, List<Item>> map) {
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(map);
 		prefs.saveItemsMap(json);
@@ -41,14 +44,15 @@ public class InPreferencesItemStorage implements ItemStorage {
 	}
 
 	@Override
-	public Map<String, ArrayList<Item>> getItemsMap() {
-		Map<String, ArrayList<Item>> map = new HashMap<String, ArrayList<Item>>();
+	public Map<String, List<Item>> getItemsMap() {
+		Map<String, List<Item>> map = new HashMap<String, List<Item>>();
 		if (isValidDataAge()) {
 			// Saved data still valid
 			String json = prefs.getItemsMap();
 			if (json != null) {
 				Gson gson = new GsonBuilder().create();
-				map = gson.fromJson(json, map.getClass());
+				Type typeOfHashMap = new TypeToken<Map<String, ArrayList<Item>>>() { }.getType();
+				map = gson.fromJson(json, typeOfHashMap);
 			}
 		} else {
 			// Too old data, clear
