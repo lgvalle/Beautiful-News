@@ -15,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.lgvalle.beaufitulphotos.data.*;
 import com.lgvalle.beaufitulphotos.elpais.ElPaisModule;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
-import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosScreen;
+import com.lgvalle.beaufitulphotos.interfaces.BeautifulNewsPresenter;
+import com.lgvalle.beaufitulphotos.interfaces.BeautifulNewsScreen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 
 import java.util.ArrayList;
@@ -36,9 +38,9 @@ import java.util.List;
  * <p/>
  * Finally, the activity (screen) creates a presenter and ask for photos. Results communication will happen through the event bus
  */
-public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhotosScreen {
+public class BeautifulNewsActivity extends BaseActivity implements BeautifulNewsScreen {
 	/* Manage all business logic for this activity */
-	private BeautifulNewsPresenterImpl presenter;
+	private BeautifulNewsPresenter presenter;
 	private Section sections[];
 	@InjectView(R.id.pager)
 	ViewPager pager;
@@ -63,6 +65,12 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 		// Unregister every time activity is paused
 		BusHelper.unregister(this);
 		BusHelper.unregister(presenter);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		presenter.dispose();
 	}
 
 	@Override
@@ -197,7 +205,10 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulPhot
 	@Override
 	protected void initPresenter() {
 		// Init activity presenter with all it's dependencies
-		this.presenter = new BeautifulNewsPresenterImpl(ElPaisModule.getService(), this);
+		ItemStorage storage = new TimedCacheItemStorage(10000, PrefsManager.getInstance(this));
+		OnlineItemRepository repository = new OnlineItemRepository(ElPaisModule.getService(), storage);
+
+		this.presenter = new BeautifulNewsPresenterImpl(repository, this);
 
 	}
 

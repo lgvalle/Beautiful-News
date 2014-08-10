@@ -11,7 +11,7 @@ import java.util.List;
  * Interface for main activity.
  * Just a simple example to illustrate how it's works
  */
-public interface BeautifulPhotosScreen {
+public interface BeautifulNewsScreen {
 	/**
 	 * Show error on UI
 	 *

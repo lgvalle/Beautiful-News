@@ -5,8 +5,8 @@ import com.lgvalle.beaufitulphotos.fivehundredpxs.Api500pxService;
 import com.lgvalle.beaufitulphotos.fivehundredpxs.model.Feature;
 import com.lgvalle.beaufitulphotos.fivehundredpxs.model.Photo500px;
 import com.lgvalle.beaufitulphotos.fivehundredpxs.model.PhotosResponse;
+import com.lgvalle.beaufitulphotos.interfaces.BeautifulNewsScreen;
 import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosPresenter;
-import com.lgvalle.beaufitulphotos.interfaces.BeautifulPhotosScreen;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.squareup.otto.Subscribe;
 import ly.apps.android.rest.client.Callback;
@@ -45,7 +45,7 @@ public class BeautifulPhotosPresenterTest {
 	private BeautifulPhotosPresenter presenter;
 	private Api500pxService service;
 	private ArrayList<Photo500px> photos;
-	private BeautifulPhotosScreen screen;
+	private BeautifulNewsScreen screen;
 	private PhotosAvailableEvent event;
 	private Response invalidResponse;
 	private Response emptyResponse;
@@ -133,7 +133,7 @@ public class BeautifulPhotosPresenterTest {
 
 	private void initializeMocks() {
 		service = mock(Api500pxService.class);
-		screen = mock(BeautifulPhotosScreen.class);
+		screen = mock(BeautifulNewsScreen.class);
 		validResponse = mock(Response.class);
 		when(validResponse.getResult()).thenReturn(photosResponse);
 		when(validResponse.getStatusCode()).thenReturn(HttpStatus.SC_OK);

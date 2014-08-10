@@ -5,6 +5,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.lgvalle.beaufitulphotos.elpais.model.Item;
 import com.lgvalle.beaufitulphotos.elpais.model.Section;
+import com.lgvalle.beaufitulphotos.interfaces.BeautifulNewsPresenter;
 import com.lgvalle.beaufitulphotos.utils.BusHelper;
 import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
 
@@ -29,7 +30,7 @@ public class DetailsPagerActivity extends BaseActivity {
 	/* Actionbar title */
 	private String title;
 	/* Manage all business logic for this activity */
-	private BeautifulNewsPresenterImpl presenter;
+	private BeautifulNewsPresenter presenter;
 
 	@InjectView(R.id.pager)
 	ViewPager pager;
