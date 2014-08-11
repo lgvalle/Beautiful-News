@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.crashlytics.android.Crashlytics;
 import com.lgvalle.beaufitulnews.data.InPreferencesItemStorage;
+import com.lgvalle.beaufitulnews.data.ItemRepository;
 import com.lgvalle.beaufitulnews.data.ItemStorage;
 import com.lgvalle.beaufitulnews.data.OnlineItemRepository;
 import com.lgvalle.beaufitulnews.elpais.ElPaisModule;
@@ -28,7 +29,6 @@ import com.lgvalle.beaufitulnews.interfaces.BeautifulNewsScreen;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.lgvalle.beaufitulnews.utils.PrefsManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,10 +44,7 @@ import java.util.List;
  * Finally, the activity (screen) creates a presenter and ask for photos. Results communication will happen through the event bus
  */
 public class BeautifulNewsActivity extends BaseActivity implements BeautifulNewsScreen {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Crashlytics.start(this);    }
+	private static final String TAG = BeautifulNewsActivity.class.getSimpleName();
 
 	/* Manage all business logic for this activity */
 	private BeautifulNewsPresenter presenter;
@@ -59,6 +56,11 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 	@InjectView(R.id.navdrawer_items)
 	LinearLayout llDrawerItems;
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Crashlytics.start(this);
+	}
 
 	@Override
 	protected void onResume() {
@@ -136,7 +138,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 
 	private void createDrawerItems() {
 		llDrawerItems.removeAllViews();
-		int i=0;
+		int i = 0;
 		for (Section section : sections) {
 			View v = createDrawerItem(section, i);
 			llDrawerItems.addView(v);
@@ -150,7 +152,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 		title.setText(s.getTitle());
 
 		View indicator = view.findViewById(R.id.drawer_item_indicator);
-		GradientDrawable shapeDrawable = (GradientDrawable)indicator.getBackground();
+		GradientDrawable shapeDrawable = (GradientDrawable) indicator.getBackground();
 		shapeDrawable.setColor(s.getColor());
 
 		view.setOnClickListener(new View.OnClickListener() {
@@ -215,8 +217,8 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 	@Override
 	protected void initPresenter() {
 		// Init activity presenter with all it's dependencies
-		ItemStorage storage = new InPreferencesItemStorage(PrefsManager.getInstance(this));
-		OnlineItemRepository repository = new OnlineItemRepository(ElPaisModule.getService(), storage);
+		ItemStorage storage = InPreferencesItemStorage.getInstance(PrefsManager.getInstance(this));
+		ItemRepository repository = OnlineItemRepository.getInstance(ElPaisModule.getService(), storage);
 
 		this.presenter = new BeautifulNewsPresenterImpl(repository, this);
 
@@ -235,11 +237,14 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 
 	@Override
 	public void openDetails(int itemIndex, List<Item> items, Section section) {
+		Log.d(TAG, "[BeautifulNewsActivity - openDetails] - (line 238): " + "open details");
 		Intent i = new Intent(this, DetailsPagerActivity.class);
 		i.putExtra(DetailsPagerActivity.INTENT_EXTRA_INDEX, itemIndex);
 		i.putExtra(DetailsPagerActivity.INTENT_EXTRA_SECTION, section);
-		i.putParcelableArrayListExtra(DetailsPagerActivity.INTENT_EXTRA_ITEMS, (ArrayList<? extends Parcelable>) items);
+		//i.putParcelableArrayListExtra(DetailsPagerActivity.INTENT_EXTRA_ITEMS, (ArrayList<? extends Parcelable>) items);
+		Log.d(TAG, "[BeautifulNewsActivity - openDetails] - (line 244): " + "intent built");
 		startActivity(i);
+
 	}
 
 	private void actionBarToTabs() {

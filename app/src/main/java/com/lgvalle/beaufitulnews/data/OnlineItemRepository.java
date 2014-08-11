@@ -16,29 +16,32 @@ import java.util.Map;
  */
 public class OnlineItemRepository implements ItemRepository {
 	private static final String TAG = OnlineItemRepository.class.getSimpleName();
+	private static OnlineItemRepository instance;
 	/* memory cache */
 	final Map<String, List<Item>> map;
 	final ElPaisService service;
 	final ItemStorage storage;
 
 
-	public OnlineItemRepository(ElPaisService service, ItemStorage storage) {
+	public static ItemRepository getInstance(ElPaisService service, ItemStorage storage) {
+		if (instance == null) {
+			instance = new OnlineItemRepository(service, storage);
+		}
+		return instance;
+	}
+
+	private OnlineItemRepository(ElPaisService service, ItemStorage storage) {
 		this.service = service;
 		this.storage = storage;
 		// Init memory cache with stored data
 		this.map = storage.getItemsMap();
-		Log.d(TAG, "[OnlineItemRepository - OnlineItemRepository] - (line 29): " + "map: "+map.size());
+		Log.d(TAG, "[OnlineItemRepository - OnlineItemRepository] - (line 29): " + "map: " + map.size());
 	}
 
 	@Override
 	public void getItemsBySection(final Section section, final Callback<List<Item>> callback) {
 		// If items in memory -> return
 		List<Item> items = map.get(section.getParam());
-		Log.d(TAG, "[OnlineItemRepository - getItemsBySection] - (line 36): " + "map: "+map.size());
-		if (items != null)
-			Log.d(TAG, "[OnlineItemRepository - getItemsBySection] - (line 37): " + "items for "+section.getParam()+": "+items.size());
-
-
 		if (items != null && !items.isEmpty()) {
 			callback.success(items);
 		} else {

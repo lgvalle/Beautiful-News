@@ -1,5 +1,6 @@
 package com.lgvalle.beaufitulnews;
 
+import android.util.Log;
 import com.lgvalle.beaufitulnews.data.ItemRepository;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 import com.lgvalle.beaufitulnews.elpais.model.Section;
@@ -22,6 +23,7 @@ public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
 	private final ItemRepository repository;
 
 	public BeautifulNewsPresenterImpl(ItemRepository repository, BeautifulNewsScreen screen) {
+
 		this.repository = repository;
 		this.screen = screen;
 	}
@@ -50,11 +52,13 @@ public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
 	 */
 	@Subscribe
 	public void onItemChosen(final NewsItemChosen event) {
+		Log.d(TAG, "[BeautifulNewsPresenterImpl - onItemChosen] - (line 54): " + "item chosen");
 		if (event != null && event.getItem() != null) {
 			final Section section = event.getSection();
 			repository.getItemsBySection(section, new ItemRepository.Callback<List<Item>>() {
 				@Override
 				public void success(List<Item> items) {
+					Log.d(TAG, "[BeautifulNewsPresenterImpl - success] - (line 60): " + "");
 					int index = items.indexOf(event.getItem());
 					screen.openDetails(index, items, section);
 				}

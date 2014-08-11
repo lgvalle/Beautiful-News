@@ -13,7 +13,6 @@ import com.lgvalle.beaufitulnews.elpais.model.Section;
 import com.lgvalle.beaufitulnews.events.GalleryItemsAvailableEvent;
 import com.lgvalle.beaufitulnews.events.GalleryReloadEvent;
 import com.lgvalle.beaufitulnews.events.GalleryRequestingMoreElementsEvent;
-import com.lgvalle.beaufitulnews.events.PhotosAvailableEvent;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.lgvalle.beaufitulnews.utils.Renderer;
 import com.lgvalle.beaufitulnews.utils.RendererAdapter;
@@ -25,7 +24,7 @@ import com.squareup.otto.Subscribe;
  * A PhotoModel Gallery.
  * <p/>
  * This is the UI layer of the Gallery.
- * It is initialized empty and listen for {@link PhotosAvailableEvent} on the bus
+ * It is initialized empty and listen for {@link } on the bus
  * When a new event is received, all photos are added to the adapter.
  */
 public abstract class BaseElementListFragment<T> extends BaseFragment {

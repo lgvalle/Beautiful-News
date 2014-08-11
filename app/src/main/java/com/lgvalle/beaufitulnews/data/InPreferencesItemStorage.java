@@ -22,15 +22,23 @@ import java.util.Map;
 
 public class InPreferencesItemStorage implements ItemStorage {
 	private static final long DEFAULT_CACHE_TIME = 60000;
+	private static InPreferencesItemStorage instance;
 	private final long cacheTime;
 	private final PrefsManager prefs;
 
-	public InPreferencesItemStorage(int cacheTime, PrefsManager prefs) {
+	public static ItemStorage getInstance(PrefsManager prefs) {
+		if (instance == null) {
+			instance = new InPreferencesItemStorage(prefs);
+		}
+		return instance;
+	}
+
+	private InPreferencesItemStorage(int cacheTime, PrefsManager prefs) {
 		this.cacheTime = cacheTime;
 		this.prefs = prefs;
 	}
 
-	public InPreferencesItemStorage(PrefsManager prefs) {
+	private InPreferencesItemStorage(PrefsManager prefs) {
 		this.cacheTime = DEFAULT_CACHE_TIME;
 		this.prefs = prefs;
 	}

@@ -10,13 +10,15 @@ import java.util.Map;
  */
 public class InMemoryItemStorage implements ItemStorage {
 
+	private Map<String, List<Item>> map;
+
 	@Override
 	public void saveItemsMap(Map<String, List<Item>> map) {
-
+		this.map = map;
 	}
 
 	@Override
 	public Map<String, List<Item>> getItemsMap() {
-		return null;
+		return map;
 	}
 }
