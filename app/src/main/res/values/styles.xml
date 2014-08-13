@@ -5,7 +5,6 @@
 	<style name="PhotoFrame">
 		<item name="android:padding">10dp</item>
 		<item name="android:layout_alignParentBottom">true</item>
-		<item name="android:background">@drawable/gradient_black</item>
 	</style>
 
 	<style name="PhotoCaption">

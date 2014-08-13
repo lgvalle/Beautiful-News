@@ -52,11 +52,11 @@ public class PicassoHelper {
 	 */
 	public static void loadWithBlur(Context ctx, String url, ImageView target, Callback callback) {
 		// After loading, execute parameter callback
-		Picasso.with(ctx).load(url).transform(new BlurTransformation(ctx)).into(target, callback);
+		Picasso.with(ctx).load(url).transform(new TransformBlur(ctx)).into(target, callback);
 	}
 
 	public static void loadWithBlur(Context ctx, String url, ImageView target) {
 		// After loading, execute parameter callback
-		Picasso.with(ctx).load(url).transform(new BlurTransformation(ctx)).into(target);
+		Picasso.with(ctx).load(url).transform(new TransformBlur(ctx)).into(target);
 	}
 }

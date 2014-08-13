@@ -10,7 +10,7 @@
 		android:layout_height="match_parent"
 		android:layout_gravity="start|bottom"
 		android:clipToPadding="false"
-		android:dividerHeight="4dp"
+		android:dividerHeight="0dp"
 		android:paddingTop="?attr/actionBarSize"
 		android:scrollbarStyle="outsideOverlay" />
 

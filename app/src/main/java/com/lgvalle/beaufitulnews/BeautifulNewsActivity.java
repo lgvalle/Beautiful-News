@@ -221,7 +221,6 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 		ItemRepository repository = OnlineItemRepository.getInstance(ElPaisModule.getService(), storage);
 
 		this.presenter = new BeautifulNewsPresenterImpl(repository, this);
-
 	}
 
 	/**

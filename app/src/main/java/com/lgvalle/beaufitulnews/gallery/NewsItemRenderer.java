@@ -13,8 +13,9 @@ import butterknife.InjectView;
 import com.facebook.rebound.*;
 import com.lgvalle.beaufitulnews.R;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
-import com.lgvalle.beaufitulnews.utils.PicassoHelper;
 import com.lgvalle.beaufitulnews.utils.Renderer;
+import com.lgvalle.beaufitulnews.utils.TransformGradient;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by lgvalle on 21/07/14.
@@ -62,7 +63,12 @@ public class NewsItemRenderer extends Renderer<Item> {
 	public View render(Context ctx) {
 		// Load photo
 		if (!TextUtils.isEmpty(getContent().getImageURLSmall())) {
-			PicassoHelper.load(ctx, getContent().getImageURLSmall(), ivPhoto);
+			//PicassoHelper.load(ctx, getContent().getImageURLSmall(), );
+			Picasso.with(ctx)
+					.load(getContent().getImageURLSmall())
+					.transform(new TransformGradient(10, 10))
+					.placeholder(android.R.drawable.progress_indeterminate_horizontal)
+					.into(ivPhoto);
 		}
 
 		// Set photo title
