@@ -59,7 +59,7 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 	@Override
 	protected void initLayout() {
 		super.initLayout();
-		list.setBackgroundColor(section.getColor());
+		//list.setBackgroundColor(section.getColor());
 	}
 
 	@Subscribe

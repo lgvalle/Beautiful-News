@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
+	android:paddingLeft="8dp"
+	android:paddingRight="8dp"
+	android:paddingTop="8dp"
 	android:layout_height="wrap_content">
 
-	<ImageView
-		android:id="@+id/photo"
+	<RelativeLayout
 		android:layout_width="match_parent"
-		style="@style/PhotoThumbnail" />
+		android:background="@drawable/bg_card"
+		android:layout_height="wrap_content">
 
-	<FrameLayout
-		android:id="@+id/photo_title_frame"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		style="@style/PhotoFrame">
+		<ImageView
+			android:id="@+id/photo"
+			android:layout_width="match_parent"
+			style="@style/PhotoThumbnail" />
 
 		<TextView
 			android:id="@+id/photo_title"
@@ -21,8 +23,6 @@
 			android:layout_height="wrap_content"
 			style="@style/PhotoCaption" />
 
-	</FrameLayout>
+	</RelativeLayout>
 
-
-</RelativeLayout>
-
+</FrameLayout>

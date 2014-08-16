@@ -26,7 +26,6 @@ public class TransformGradient implements Transformation {
 
 		Bitmap bitmap = Bitmap.createBitmap(source.getWidth(), source.getHeight(), source.getConfig());
 
-
 		shaders[0] = new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 		shaders[1] = new LinearGradient(0, source.getHeight()/2, 0, source.getHeight(), Color.TRANSPARENT, Color.BLACK, Shader.TileMode.CLAMP);
 		ComposeShader composeShader = new ComposeShader(shaders[0], shaders[1], PorterDuff.Mode.DST_OUT);

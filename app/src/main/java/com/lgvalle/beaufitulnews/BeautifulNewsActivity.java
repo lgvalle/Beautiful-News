@@ -194,6 +194,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 					if (pager != null) {
 						pager.setCurrentItem(tab.getPosition());
 					}
+					getSupportActionBar().setSelectedNavigationItem(tab.getPosition());
 					getSupportActionBar().show();
 					getSupportActionBar().setStackedBackgroundDrawable(new ColorDrawable(sections[finalI].getColor()));
 
@@ -209,6 +210,7 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 
 				}
 			});
+
 			getSupportActionBar().addTab(tab);
 
 		}

@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -39,8 +38,6 @@ public class NewsItemRenderer extends Renderer<Item> {
 	ImageView ivPhoto;
 	@InjectView(R.id.photo_title)
 	TextView tvPhotoTitle;
-	@InjectView(R.id.photo_title_frame)
-	FrameLayout flTitleFrame;
 
 	public NewsItemRenderer() {
 		super();
@@ -91,8 +88,8 @@ public class NewsItemRenderer extends Renderer<Item> {
 	 */
 	private void animate() {
 		// Map the spring to the photo and the photo title positions so that they are hidden off the row and bounces in on render or recycle row.
-		float positionTitle = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, flTitleFrame.getHeight(), 0);
-		flTitleFrame.setTranslationY(positionTitle);
+		float positionTitle = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, tvPhotoTitle.getHeight(), 0);
+		tvPhotoTitle.setTranslationY(positionTitle);
 	}
 
 	@Override
