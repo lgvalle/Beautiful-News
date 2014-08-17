@@ -2,7 +2,7 @@ package com.lgvalle.beaufitulnews;
 
 import android.widget.ListView;
 import com.lgvalle.beaufitulnews.fivehundredpxs.model.Photo500px;
-import com.lgvalle.beaufitulnews.gallery.BaseElementListFragment;
+import com.lgvalle.beaufitulnews.ui.BaseElementListFragment;
 import com.lgvalle.beaufitulnews.interfaces.PhotoModel;
 import com.lgvalle.beaufitulnews.utils.RendererAdapter;
 import org.junit.Before;

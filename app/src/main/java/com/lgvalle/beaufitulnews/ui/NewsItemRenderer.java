@@ -1,4 +1,4 @@
-package com.lgvalle.beaufitulnews.gallery;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -18,10 +18,7 @@ import com.squareup.picasso.Picasso;
 
 /**
  * Created by lgvalle on 21/07/14.
- * <p/>
- * Concrete renderer for photomodel object.
- * <p/>
- * This class binds a concrete view with a concrete object.
+ * This class binds a concrete view with a concrete Item object.
  */
 public class NewsItemRenderer extends Renderer<Item> {
 	private static final String TAG = NewsItemRenderer.class.getSimpleName();
@@ -58,23 +55,17 @@ public class NewsItemRenderer extends Renderer<Item> {
 	 */
 	@Override
 	public View render(Context ctx) {
-
-
 		// Load photo
 		if (!TextUtils.isEmpty(getContent().getImageURLSmall())) {
 			Picasso.with(ctx)
 					.load(getContent().getImageURLSmall())
-					.transform(new TransformGradient(10, 10))
+					.transform(new TransformGradient())
 					.placeholder(R.color.grey_500)
 					.error(R.color.grey_500)
 					.into(ivPhoto);
 
 
-		} else {
-			ivPhoto.setImageResource(0);
-			ivPhoto.setBackgroundColor(ctx.getResources().getColor(R.color.grey_500));
 		}
-
 		// Set photo title
 		tvPhotoTitle.setText(getContent().getTitle());
 		return rootView;
@@ -104,5 +95,7 @@ public class NewsItemRenderer extends Renderer<Item> {
 		super.onRecycle(content);
 		mSpring.setCurrentValue(0);
 		mSpring.setEndValue(1);
+		// Clear photo
+		ivPhoto.setImageResource(0);
 	}
 }

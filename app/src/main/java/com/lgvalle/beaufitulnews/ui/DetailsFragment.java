@@ -1,20 +1,18 @@
-package com.lgvalle.beaufitulnews.gallery;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import com.facebook.rebound.*;
-import com.lgvalle.beaufitulnews.BaseFragment;
 import com.lgvalle.beaufitulnews.R;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 import com.lgvalle.beaufitulnews.elpais.model.Section;
-import com.lgvalle.beaufitulnews.events.NewsItemChosen;
+import com.lgvalle.beaufitulnews.events.ItemChosenEvent;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.lgvalle.beaufitulnews.utils.PicassoHelper;
 import com.lgvalle.beaufitulnews.utils.TimeHelper;
@@ -30,7 +28,7 @@ import com.nirhart.parallaxscroll.views.ParallaxScrollView;
 public class DetailsFragment extends BaseFragment {
 	private static final String TAG = DetailsFragment.class.getSimpleName();
 	/* Animations */
-	private static final SpringConfig SPRING_CONFIG = SpringConfig.fromOrigamiTensionAndFriction(10, 10);
+	private static final SpringConfig SPRING_CONFIG = SpringConfig.fromOrigamiTensionAndFriction(40, 10);
 	public static final String INTENT_EXTRA_ITEM = "item";
 	public static final String INTENT_EXTRA_SECTION = "section";
 	private Spring mSpring;
@@ -67,6 +65,7 @@ public class DetailsFragment extends BaseFragment {
 				animate();
 			}
 		});
+
 	}
 
 
@@ -122,7 +121,6 @@ public class DetailsFragment extends BaseFragment {
 		tvEntradilla.setText(item.getDescription().get(0));
 		tvDate.setText(DateUtils.formatDateTime(getActivity(), TimeHelper.getTimestamp(item.getPubDate()), DateUtils.FORMAT_SHOW_DATE));
 
-		// TODO Encapsulate?
 		if (item.getDescription().size() > 1) {
 			buildWebContent();
 		}
@@ -143,15 +141,15 @@ public class DetailsFragment extends BaseFragment {
 	 */
 	private void animate() {
 		// Map the spring to info bar position so that its hidden off screen and bounces in on ui restore.
-		float position = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, tvTitular.getWidth() / 2, 0);
+		float position = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, 0, -ivPhoto.getHeight());
 		float alpha = (float) SpringUtil.mapValueFromRangeToRange(mSpring.getCurrentValue(), 0, 1, 0, 1);
-		tvTitular.setTranslationY(position);
+		ivPhoto.setTranslationY(position);
 	}
 
 	/**
 	 * When a new Gallery Item is selected, clear previous image views and load the new one
 	 */
-	public void onGalleryItemChosen(NewsItemChosen event) {
+	public void onGalleryItemChosen(ItemChosenEvent event) {
 		if (event != null && event.getItem() != null) {
 			bindImages(event.getItem());
 			bindTexts(event.getItem());
@@ -172,17 +170,24 @@ public class DetailsFragment extends BaseFragment {
 		getActivity().finish();
 	}
 
+	/*
+	*
+	* TODO Not working perfect. Need improvement
+	*
+
 	@OnClick({R.id.photo, R.id.photo_enlarged})
 	public void onClickPhoto() {
 		if (ivPhotoEnlarged.getVisibility() == View.VISIBLE) {
-			ivPhoto.setVisibility(View.VISIBLE);
+			mSpring.setEndValue(0);
+
+			//ivPhoto.setVisibility(View.VISIBLE);
 			ivPhotoEnlarged.setVisibility(View.GONE);
 		} else {
-			ivPhoto.setVisibility(View.GONE);
+			//ivPhoto.setVisibility(View.GONE);
+			mSpring.setEndValue(1);
 			PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhotoEnlarged);
 			ivPhotoEnlarged.setVisibility(View.VISIBLE);
 		}
-
-
 	}
+	*/
 }

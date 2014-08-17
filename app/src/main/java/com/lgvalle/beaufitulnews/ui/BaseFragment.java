@@ -1,4 +1,4 @@
-package com.lgvalle.beaufitulnews;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

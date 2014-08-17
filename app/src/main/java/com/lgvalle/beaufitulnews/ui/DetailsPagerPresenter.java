@@ -1,4 +1,4 @@
-package com.lgvalle.beaufitulnews.interfaces;
+package com.lgvalle.beaufitulnews.ui;
 
 import com.lgvalle.beaufitulnews.elpais.model.Section;
 

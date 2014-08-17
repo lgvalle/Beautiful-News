@@ -6,12 +6,11 @@ import com.lgvalle.beaufitulnews.elpais.model.Section;
 /**
  * Created by lgvalle on 03/08/14.
  */
-public class NewsItemChosen {
-
+public class ItemChosenEvent {
 	final Item item;
 	final Section section;
 
-	public NewsItemChosen(Section section, Item item) {
+	public ItemChosenEvent(Section section, Item item) {
 		this.section = section;
 		this.item = item;
 	}

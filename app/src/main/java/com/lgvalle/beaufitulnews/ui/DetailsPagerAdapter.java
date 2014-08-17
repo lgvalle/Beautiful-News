@@ -1,11 +1,10 @@
-package com.lgvalle.beaufitulnews;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 import com.lgvalle.beaufitulnews.elpais.model.Section;
-import com.lgvalle.beaufitulnews.gallery.DetailsFragment;
 
 import java.util.List;
 

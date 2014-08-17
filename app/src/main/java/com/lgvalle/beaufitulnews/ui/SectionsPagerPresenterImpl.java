@@ -1,14 +1,12 @@
-package com.lgvalle.beaufitulnews;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.util.Log;
 import com.lgvalle.beaufitulnews.data.ItemRepository;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 import com.lgvalle.beaufitulnews.elpais.model.Section;
-import com.lgvalle.beaufitulnews.events.GalleryItemsAvailableEvent;
-import com.lgvalle.beaufitulnews.events.GalleryRequestingMoreElementsEvent;
-import com.lgvalle.beaufitulnews.events.NewsItemChosen;
-import com.lgvalle.beaufitulnews.interfaces.BeautifulNewsPresenter;
-import com.lgvalle.beaufitulnews.interfaces.BeautifulNewsScreen;
+import com.lgvalle.beaufitulnews.events.ItemChosenEvent;
+import com.lgvalle.beaufitulnews.events.ItemsAvailableEvent;
+import com.lgvalle.beaufitulnews.events.RequestingMoreItemsEvent;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.squareup.otto.Subscribe;
 
@@ -17,12 +15,12 @@ import java.util.List;
 /**
  * Created by lgvalle on 02/08/14.
  */
-public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
-	private static final String TAG = BeautifulNewsPresenterImpl.class.getSimpleName();
-	private final BeautifulNewsScreen screen;
+public class SectionsPagerPresenterImpl implements SectionsPagerPresenter {
+	private static final String TAG = SectionsPagerPresenterImpl.class.getSimpleName();
+	private final SectionsPagerScreen screen;
 	private final ItemRepository repository;
 
-	public BeautifulNewsPresenterImpl(ItemRepository repository, BeautifulNewsScreen screen) {
+	public SectionsPagerPresenterImpl(ItemRepository repository, SectionsPagerScreen screen) {
 
 		this.repository = repository;
 		this.screen = screen;
@@ -35,13 +33,13 @@ public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
 	 * @param event
 	 */
 	@Subscribe
-	public void onSectionRequestingMoreEvent(GalleryRequestingMoreElementsEvent event) {
+	public void onSectionRequestingMoreEvent(RequestingMoreItemsEvent event) {
 		if (event != null && event.getSection() != null) {
 			final Section section = event.getSection();
 			repository.getItemsBySection(section, new ItemRepository.Callback<List<Item>>() {
 				@Override
 				public void success(List<Item> items) {
-					BusHelper.post(new GalleryItemsAvailableEvent<>(items, section));
+					BusHelper.post(new ItemsAvailableEvent<>(items, section));
 				}
 			});
 		}
@@ -51,7 +49,7 @@ public class BeautifulNewsPresenterImpl implements BeautifulNewsPresenter {
 	 * When an Item is selected
 	 */
 	@Subscribe
-	public void onItemChosen(final NewsItemChosen event) {
+	public void onItemChosen(final ItemChosenEvent event) {
 		Log.d(TAG, "[BeautifulNewsPresenterImpl - onItemChosen] - (line 54): " + "item chosen");
 		if (event != null && event.getItem() != null) {
 			final Section section = event.getSection();

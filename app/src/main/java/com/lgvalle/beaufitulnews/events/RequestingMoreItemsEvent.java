@@ -7,14 +7,14 @@ import com.lgvalle.beaufitulnews.elpais.model.Section;
  *
  * Event: gallery requests more elements
  */
-public class GalleryRequestingMoreElementsEvent {
+public class RequestingMoreItemsEvent {
 	/**
 	 * Empty. We just need a class to model an event
 	 */
 
 	final Section section;
 
-	public GalleryRequestingMoreElementsEvent(Section section) {
+	public RequestingMoreItemsEvent(Section section) {
 		this.section = section;
 	}
 

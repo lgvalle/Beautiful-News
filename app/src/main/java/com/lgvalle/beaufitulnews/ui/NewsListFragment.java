@@ -1,4 +1,4 @@
-package com.lgvalle.beaufitulnews.gallery;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import butterknife.OnItemClick;
 import com.lgvalle.beaufitulnews.R;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 import com.lgvalle.beaufitulnews.elpais.model.Section;
-import com.lgvalle.beaufitulnews.events.GalleryItemsAvailableEvent;
-import com.lgvalle.beaufitulnews.events.GalleryRequestingMoreElementsEvent;
-import com.lgvalle.beaufitulnews.events.NewsItemChosen;
+import com.lgvalle.beaufitulnews.events.ItemChosenEvent;
+import com.lgvalle.beaufitulnews.events.ItemsAvailableEvent;
+import com.lgvalle.beaufitulnews.events.RequestingMoreItemsEvent;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.lgvalle.beaufitulnews.utils.Renderer;
 import com.squareup.otto.Subscribe;
@@ -52,7 +52,7 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 		super.onResume();
 		// Empty list? Ask for some items!
 		if (adapter.isEmpty()) {
-			BusHelper.post(new GalleryRequestingMoreElementsEvent(section));
+			BusHelper.post(new RequestingMoreItemsEvent(section));
 		}
 	}
 
@@ -63,7 +63,7 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 	}
 
 	@Subscribe
-	public void onItemsAvailableEvent(GalleryItemsAvailableEvent<Item, Section> event) {
+	public void onItemsAvailableEvent(ItemsAvailableEvent<Item, Section> event) {
 		if (event.getSection().equals(section)) {
 			super.onItemsAvailableEvent(event);
 		}
@@ -76,6 +76,6 @@ public class NewsListFragment extends BaseElementListFragment<Item> {
 	 */
 	@OnItemClick(R.id.photo_list)
 	public void onItemClick(int position) {
-		BusHelper.post(new NewsItemChosen(section, adapter.getItem(position)));
+		BusHelper.post(new ItemChosenEvent(section, adapter.getItem(position)));
 	}
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
+<?xml version="1.0" encoding="utf-8"?><!-- File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
@@ -19,65 +18,67 @@
 
 <resources>
 
-    <style name="Theme.Beautifulnews" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarItemBackground">@drawable/selectable_background_beautifulnews</item>
-	    <item name="android:typeface">serif</item>
-        <item name="popupMenuStyle">@style/PopupMenu.Beautifulnews</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Beautifulnews</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Beautifulnews</item>
-	    <item name="actionDropDownStyle">@style/DropDownNav.Beautifulnews</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Beautifulnews</item>
-        <item name="actionModeBackground">@drawable/cab_background_top_beautifulnews</item>
-        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_beautifulnews</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Beautifulnews</item>
+	<style name="Theme.Beautifulnews" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+		<item name="actionBarItemBackground">@drawable/selectable_background_beautifulnews</item>
+		<item name="android:typeface">serif</item>
+		<item name="windowActionBarOverlay">true</item>
+		<item name="popupMenuStyle">@style/PopupMenu.Beautifulnews</item>
+		<item name="dropDownListViewStyle">@style/DropDownListView.Beautifulnews</item>
+		<item name="actionBarTabStyle">@style/ActionBarTabStyle.Beautifulnews</item>
+		<item name="actionDropDownStyle">@style/DropDownNav.Beautifulnews</item>
+		<item name="actionBarStyle">@style/ActionBar.Solid.Beautifulnews</item>
+		<item name="actionModeBackground">@drawable/cab_background_top_beautifulnews</item>
+		<item name="actionModeSplitBackground">@drawable/cab_background_bottom_beautifulnews</item>
+		<item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Beautifulnews</item>
 
-                <!-- Light.DarkActionBar specific -->
-        <item name="actionBarWidgetTheme">@style/Theme.Beautifulnews.Widget</item>
+		<!-- Light.DarkActionBar specific -->
+		<item name="actionBarWidgetTheme">@style/Theme.Beautifulnews.Widget</item>
 
-    </style>
+	</style>
 
-    <style name="ActionBar.Solid.Beautifulnews" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@drawable/ab_solid_beautifulnews</item>
-        <item name="backgroundStacked">@drawable/ab_stacked_solid_beautifulnews</item>
-        <item name="backgroundSplit">@drawable/ab_bottom_solid_beautifulnews</item>
-        <item name="progressBarStyle">@style/ProgressBar.Beautifulnews</item>
-    </style>
+	<style name="ActionBar.Solid.Beautifulnews" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+		<item name="background">@drawable/ab_solid_beautifulnews</item>
+		<item name="backgroundStacked">@drawable/ab_stacked_solid_beautifulnews</item>
+		<item name="backgroundSplit">@drawable/ab_bottom_solid_beautifulnews</item>
+		<item name="progressBarStyle">@style/ProgressBar.Beautifulnews</item>
+	</style>
 
-    <style name="ActionBar.Transparent.Beautifulnews" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="background">@drawable/ab_transparent_beautifulnews</item>
-        <item name="progressBarStyle">@style/ProgressBar.Beautifulnews</item>
-    </style>
-	
-    <style name="PopupMenu.Beautifulnews" parent="@style/Widget.AppCompat.PopupMenu">	
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_beautifulnews</item>	
-    </style>
-	
-    <style name="DropDownListView.Beautifulnews" parent="@style/Widget.AppCompat.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_beautifulnews</item>
-    </style>
+	<style name="ActionBar.Transparent.Beautifulnews" parent="@style/Widget.AppCompat.ActionBar">
+		<item name="background">@drawable/ab_transparent_beautifulnews</item>
+		<item name="progressBarStyle">@style/ProgressBar.Beautifulnews</item>
+	</style>
 
-    <style name="ActionBarTabStyle.Beautifulnews" parent="@style/Widget.AppCompat.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_beautifulnews</item>
-    </style>
+	<style name="PopupMenu.Beautifulnews" parent="@style/Widget.AppCompat.PopupMenu">
+		<item name="android:popupBackground">@drawable/menu_dropdown_panel_beautifulnews</item>
+	</style>
+
+	<style name="DropDownListView.Beautifulnews" parent="@style/Widget.AppCompat.ListView.DropDown">
+		<item name="android:listSelector">@drawable/selectable_background_beautifulnews</item>
+	</style>
+
+	<style name="ActionBarTabStyle.Beautifulnews" parent="@style/Widget.AppCompat.ActionBar.TabView">
+		<item name="android:background">@drawable/tab_indicator_ab_beautifulnews</item>
+		<item name="android:padding">0dp</item>
+	</style>
 
 	<style name="DropDownNav.Beautifulnews" parent="@style/Widget.AppCompat.Spinner.DropDown.ActionBar">
-        <item name="android:background">@drawable/spinner_background_ab_beautifulnews</item>
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_beautifulnews</item>
-        <item name="android:dropDownSelector">@drawable/selectable_background_beautifulnews</item>
-    </style>
-    
-    <style name="ProgressBar.Beautifulnews" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_beautifulnews</item>
-    </style>
-    
-    <style name="ActionButton.CloseMode.Beautifulnews" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
-        <item name="android:background">@drawable/btn_cab_done_beautifulnews</item>
-    </style>
-    
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Beautifulnews.Widget" parent="@style/Theme.AppCompat">
-        <item name="popupMenuStyle">@style/PopupMenu.Beautifulnews</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Beautifulnews</item>
-    </style>
+		<item name="android:background">@drawable/spinner_background_ab_beautifulnews</item>
+		<item name="android:popupBackground">@drawable/menu_dropdown_panel_beautifulnews</item>
+		<item name="android:dropDownSelector">@drawable/selectable_background_beautifulnews</item>
+	</style>
+
+	<style name="ProgressBar.Beautifulnews" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+		<item name="android:progressDrawable">@drawable/progress_horizontal_beautifulnews</item>
+	</style>
+
+	<style name="ActionButton.CloseMode.Beautifulnews" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
+		<item name="android:background">@drawable/btn_cab_done_beautifulnews</item>
+	</style>
+
+	<!-- this style is only referenced in a Light.DarkActionBar based theme -->
+	<style name="Theme.Beautifulnews.Widget" parent="@style/Theme.AppCompat">
+		<item name="popupMenuStyle">@style/PopupMenu.Beautifulnews</item>
+		<item name="dropDownListViewStyle">@style/DropDownListView.Beautifulnews</item>
+	</style>
 
 </resources>

@@ -12,17 +12,6 @@ public class ElPaisModule {
 	private static final ElPaisService service;
 
 	static {
-		// Interceptor to append consumer key on every request
-		/*
-		RequestInterceptor requestInterceptor = new RequestInterceptor() {
-			@Override
-			public void intercept(RequestFacade request) {
-				request.addQueryParam(CONSUMER_KEY_PARAM, CONSUMER_KEY_VALUE);
-			}
-		};
-
-		*/
-
 		// Configure an adapter for this client
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint(END_POINT)

@@ -1,4 +1,4 @@
-package com.lgvalle.beaufitulnews;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.crashlytics.android.Crashlytics;
+import com.lgvalle.beaufitulnews.R;
 import com.lgvalle.beaufitulnews.data.InPreferencesItemStorage;
 import com.lgvalle.beaufitulnews.data.ItemRepository;
 import com.lgvalle.beaufitulnews.data.ItemStorage;
@@ -24,30 +25,16 @@ import com.lgvalle.beaufitulnews.data.OnlineItemRepository;
 import com.lgvalle.beaufitulnews.elpais.ElPaisModule;
 import com.lgvalle.beaufitulnews.elpais.model.Item;
 import com.lgvalle.beaufitulnews.elpais.model.Section;
-import com.lgvalle.beaufitulnews.interfaces.BeautifulNewsPresenter;
-import com.lgvalle.beaufitulnews.interfaces.BeautifulNewsScreen;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.lgvalle.beaufitulnews.utils.PrefsManager;
 
 import java.util.List;
 
 
-/**
- * Main activity
- * <p/>
- * This class is on UI layer, so it's only responsible for UI interactions.
- * <p/>
- * It loads a Presenter to manage all business logic: data fetching and caching.
- * <p/>
- * The UI consist in two fragments: one with a list of photos and one for photo details.
- * <p/>
- * Finally, the activity (screen) creates a presenter and ask for photos. Results communication will happen through the event bus
- */
-public class BeautifulNewsActivity extends BaseActivity implements BeautifulNewsScreen {
-	private static final String TAG = BeautifulNewsActivity.class.getSimpleName();
+public class SectionsPagerActivity extends BaseActivity implements SectionsPagerScreen {
+	private static final String TAG = SectionsPagerActivity.class.getSimpleName();
 
-	/* Manage all business logic for this activity */
-	private BeautifulNewsPresenter presenter;
+	private SectionsPagerPresenter presenter;
 	private Section sections[];
 	@InjectView(R.id.pager)
 	ViewPager pager;
@@ -91,17 +78,6 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 		Toast.makeText(this, getString(errorID), Toast.LENGTH_SHORT).show();
 	}
 
-	/**
-	 * Screen api method to update this UI element title
-	 *
-	 * @param titleRes Title resource
-	 */
-	@Override
-	public void updateTitle(int titleRes) {
-		// //@author - lgvalle @date - 09/08/14 @time - 17:15
-		//TODO: [BeautifulNewsActivity - updateTitle] -
-	}
-
 	@Override
 	protected int getContentView() {
 		return R.layout.activity_main;
@@ -110,12 +86,8 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 	@Override
 	protected void initLayout() {
 		ButterKnife.inject(this);
-
-		initDrawer();
-
-
+		createDrawer();
 		SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager(), sections);
-
 		// Add Gallery Fragment to main_content frame. If this is a tablet there will be another frame to add content
 		pager.setAdapter(adapter);
 		// Bind pager to tabs
@@ -130,10 +102,9 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 		);
 	}
 
-	private void initDrawer() {
+	private void createDrawer() {
 		drawer.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 		createDrawerItems();
-		//populateDrawer();
 	}
 
 	private void createDrawerItems() {
@@ -159,17 +130,24 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 			@Override
 			public void onClick(View view) {
 				onSectionClicked(index);
-
 			}
 		});
 		return view;
 	}
 
+	/**
+	 * Click on drawer item (section)
+	 *
+	 * @param index Element clicked
+	 */
 	private void onSectionClicked(int index) {
 		pager.setCurrentItem(index);
 		drawer.closeDrawer(Gravity.START);
 	}
 
+	/**
+	 * Build sections array from strings
+	 */
 	private void buildSections() {
 		String[] sections_array = getResources().getStringArray(R.array.sections_url);
 		String[] sections_name_array = getResources().getStringArray(R.array.sections_name);
@@ -185,35 +163,45 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 		super.initActionBar();
 		actionBarToTabs();
 		buildSections();
-		// Add 3 tabs, specifying the tab's text and TabListener
 		for (int i = 0; i < sections.length; i++) {
-			final int finalI = i;
-			ActionBar.Tab tab = getSupportActionBar().newTab().setText(sections[i].getTitle()).setTabListener(new ActionBar.TabListener() {
-				@Override
-				public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-					if (pager != null) {
-						pager.setCurrentItem(tab.getPosition());
-					}
-					getSupportActionBar().setSelectedNavigationItem(tab.getPosition());
-					getSupportActionBar().show();
-					getSupportActionBar().setStackedBackgroundDrawable(new ColorDrawable(sections[finalI].getColor()));
-
-				}
-
-				@Override
-				public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-				}
-
-				@Override
-				public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-				}
-			});
-
-			getSupportActionBar().addTab(tab);
-
+			createTab(i);
 		}
+	}
+
+	private void createTab(int i) {
+		final int finalI = i;
+		ActionBar.Tab tab = getSupportActionBar().newTab();
+		tab.setTabListener(new ActionBar.TabListener() {
+			@Override
+			public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+				if (pager != null) {
+					pager.setCurrentItem(tab.getPosition());
+				}
+				getSupportActionBar().setSelectedNavigationItem(tab.getPosition());
+				getSupportActionBar().show();
+				getSupportActionBar().setStackedBackgroundDrawable(new ColorDrawable(sections[finalI].getColor()));
+
+			}
+
+			@Override
+			public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+			}
+
+			@Override
+			public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+			}
+		});
+
+		int tabViewResId = i == 0 ? R.layout.tab_home_custom : R.layout.tab_custom;
+		View tabView = getLayoutInflater().inflate(tabViewResId, null);
+		TextView tabText = (TextView) tabView.findViewById(R.id.tab_text);
+		tabText.setText(sections[i].getTitle());
+		tab.setCustomView(tabView);
+
+		getSupportActionBar().addTab(tab);
+
 	}
 
 	@Override
@@ -222,19 +210,8 @@ public class BeautifulNewsActivity extends BaseActivity implements BeautifulNews
 		ItemStorage storage = InPreferencesItemStorage.getInstance(PrefsManager.getInstance(this));
 		ItemRepository repository = OnlineItemRepository.getInstance(ElPaisModule.getService(), storage);
 
-		this.presenter = new BeautifulNewsPresenterImpl(repository, this);
+		this.presenter = new SectionsPagerPresenterImpl(repository, this);
 	}
-
-	/**
-	 * Show/Hide elements of UI depending if panel is expanded or not
-	 *
-	 * @param panelExpanded True if panel is expanded, false otherwise
-	 */
-	private void toggleUI(boolean panelExpanded) {
-		// Only toggle this elements if not a tablet
-
-	}
-
 
 	@Override
 	public void openDetails(int itemIndex, List<Item> items, Section section) {

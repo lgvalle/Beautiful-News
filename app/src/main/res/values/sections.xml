@@ -16,7 +16,7 @@
 		<item>elpais/vinetas-f01.xml</item>
 		<item>cultura/portada-f01.xml</item>
 		<item>tags/cine_a-f01.xml</item>
-		<item>tags/musica_a-f01.xml</item>
+		<!--<item>tags/musica_a-f01.xml</item>-->
 		<item>elpais/motor-f01.xml</item>
 		<item>ccaa/andalucia-f01.xml</item>
 		<item>ccaa/catalunya-f01.xml</item>
@@ -39,17 +39,17 @@
 		<item>Gente</item>
 		<item>Television</item>
 		<item>Opinión</item>
-		<item>viñetas</item>
-		<item>cultura</item>
-		<item>cine</item>
-		<item>música</item>
-		<item>motor</item>
-		<item>andalucia</item>
-		<item>catalunya</item>
-		<item>galicia</item>
-		<item>madrid-f01.xml</item>
-		<item>paisvasco-f01.xml</item>
-		<item>valencia-f01.xml</item>
+		<item>Viñetas</item>
+		<item>Cultura</item>
+		<item>Cine</item>
+		<!--<item>música</item>-->
+		<item>Motor</item>
+		<item>Andalucia</item>
+		<item>Catalunya</item>
+		<item>Galicia</item>
+		<item>Madrid</item>
+		<item>País Vasco</item>
+		<item>Valencia</item>
 
 	</string-array>
 
@@ -63,19 +63,19 @@
 		<item>@color/teal_500</item>
 		<item>@color/red_900</item>
 		<item>@color/pink_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
-		<item>@color/lime_900</item>
+		<item>@color/pink_700</item>
+		<item>@color/green_500</item>
+		<item>@color/light_green_800</item>
+		<item>@color/blue_a400</item>
+		<item>@color/light_blue_700</item>
+		<!--<item>@color/lime_900</item>-->
+		<item>@color/brown_500</item>
+		<item>@color/cyan_900</item>
+		<item>@color/cyan_900</item>
+		<item>@color/cyan_900</item>
+		<item>@color/cyan_900</item>
+		<item>@color/cyan_900</item>
+		<item>@color/cyan_900</item>
 
 
 

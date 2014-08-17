@@ -5,7 +5,7 @@ import com.lgvalle.beaufitulnews.fivehundredpxs.Api500pxService;
 import com.lgvalle.beaufitulnews.fivehundredpxs.model.Feature;
 import com.lgvalle.beaufitulnews.fivehundredpxs.model.Photo500px;
 import com.lgvalle.beaufitulnews.fivehundredpxs.model.PhotosResponse;
-import com.lgvalle.beaufitulnews.interfaces.BeautifulNewsScreen;
+import com.lgvalle.beaufitulnews.ui.SectionsPagerScreen;
 import com.lgvalle.beaufitulnews.interfaces.BeautifulPhotosPresenter;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.squareup.otto.Subscribe;
@@ -45,7 +45,7 @@ public class BeautifulPhotosPresenterTest {
 	private BeautifulPhotosPresenter presenter;
 	private Api500pxService service;
 	private ArrayList<Photo500px> photos;
-	private BeautifulNewsScreen screen;
+	private SectionsPagerScreen screen;
 	private PhotosAvailableEvent event;
 	private Response invalidResponse;
 	private Response emptyResponse;
@@ -133,7 +133,7 @@ public class BeautifulPhotosPresenterTest {
 
 	private void initializeMocks() {
 		service = mock(Api500pxService.class);
-		screen = mock(BeautifulNewsScreen.class);
+		screen = mock(SectionsPagerScreen.class);
 		validResponse = mock(Response.class);
 		when(validResponse.getResult()).thenReturn(photosResponse);
 		when(validResponse.getStatusCode()).thenReturn(HttpStatus.SC_OK);

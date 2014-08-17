@@ -7,12 +7,12 @@ import java.util.List;
 /**
  * Created by lgvalle on 02/08/14.
  */
-public class GalleryItemsAvailableEvent<E, T extends Section> {
+public class ItemsAvailableEvent<E, T extends Section> {
 
 	private final T section;
 	private final List<E> items;
 
-	public GalleryItemsAvailableEvent(List<E> item, T section) {
+	public ItemsAvailableEvent(List<E> item, T section) {
 		this.items = item;
 		this.section = section;
 	}

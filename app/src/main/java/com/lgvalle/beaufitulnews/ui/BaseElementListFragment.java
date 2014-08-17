@@ -1,4 +1,4 @@
-package com.lgvalle.beaufitulnews.gallery;
+package com.lgvalle.beaufitulnews.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,12 +7,10 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import butterknife.InjectView;
-import com.lgvalle.beaufitulnews.BaseFragment;
 import com.lgvalle.beaufitulnews.R;
 import com.lgvalle.beaufitulnews.elpais.model.Section;
-import com.lgvalle.beaufitulnews.events.GalleryItemsAvailableEvent;
-import com.lgvalle.beaufitulnews.events.GalleryReloadEvent;
-import com.lgvalle.beaufitulnews.events.GalleryRequestingMoreElementsEvent;
+import com.lgvalle.beaufitulnews.events.ItemsAvailableEvent;
+import com.lgvalle.beaufitulnews.events.RequestingMoreItemsEvent;
 import com.lgvalle.beaufitulnews.utils.BusHelper;
 import com.lgvalle.beaufitulnews.utils.Renderer;
 import com.lgvalle.beaufitulnews.utils.RendererAdapter;
@@ -66,18 +64,8 @@ public abstract class BaseElementListFragment<T> extends BaseFragment {
 		return adapter;
 	}
 
-	/**
-	 * Listen to gallery refreshing event.
-	 * Event could be triggered from this class or from main activity. That's why it's better to just listen the bus
-	 */
 	@Subscribe
-	public void onGalleryRefreshingEvent(GalleryReloadEvent event) {
-		adapter.clear();
-		setLoading(true);
-	}
-
-	@Subscribe
-	public void onGalleryRequestingMoreElementsEvent(GalleryRequestingMoreElementsEvent event) {
+	public void onGalleryRequestingMoreElementsEvent(RequestingMoreItemsEvent event) {
 		setLoading(true);
 	}
 
@@ -87,7 +75,7 @@ public abstract class BaseElementListFragment<T> extends BaseFragment {
 	 * @param event Event containing new photos
 	 */
 	@Subscribe
-	public void onItemsAvailableEvent(GalleryItemsAvailableEvent<T, Section> event) {
+	public void onItemsAvailableEvent(ItemsAvailableEvent<T, Section> event) {
 		if (event != null && event.getItems() != null) {
 			// Adapter refresh itself
 			adapter.addElements(event.getItems());

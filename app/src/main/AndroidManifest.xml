@@ -10,14 +10,14 @@
 
 
 	<application
-		android:name="com.lgvalle.beaufitulnews.BeautifulPhotosApplication"
+		android:name=".BeautifulNewsApplication"
 		android:allowBackup="true"
 		android:hardwareAccelerated="true"
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/app_name"
 		android:theme="@style/Theme.Beautifulnews">
 		<activity
-			android:name="com.lgvalle.beaufitulnews.BeautifulNewsActivity"
+			android:name=".ui.SectionsPagerActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="@string/app_name">
 			<intent-filter>
@@ -26,7 +26,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name="com.lgvalle.beaufitulnews.DetailsPagerActivity"
+			android:name=".ui.DetailsPagerActivity"
 			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:label="@string/app_name">
 		</activity>
