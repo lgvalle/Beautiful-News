@@ -113,10 +113,7 @@ public class DetailsFragment extends BaseFragment {
 	 * @param item Object containing photo info
 	 */
 	private void bindImages(final Item item) {
-		assert (item != null);
-		// Start by loading thumbnail photo for background image (this should be instant) Then load current large photo
 		PicassoHelper.load(getActivity(), item.getImageURLLarge(), ivPhoto);
-
 	}
 
 	private void bindTexts(final Item item) {
@@ -126,6 +123,12 @@ public class DetailsFragment extends BaseFragment {
 		tvDate.setText(DateUtils.formatDateTime(getActivity(), TimeHelper.getTimestamp(item.getPubDate()), DateUtils.FORMAT_SHOW_DATE));
 
 		// TODO Encapsulate?
+		if (item.getDescription().size() > 1) {
+			buildWebContent();
+		}
+	}
+
+	private void buildWebContent() {
 		// Build webview
 		StringBuilder sb = new StringBuilder();
 		sb.append(getActivity().getString(R.string.html_header));

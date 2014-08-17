@@ -58,14 +58,21 @@ public class NewsItemRenderer extends Renderer<Item> {
 	 */
 	@Override
 	public View render(Context ctx) {
+
+
 		// Load photo
 		if (!TextUtils.isEmpty(getContent().getImageURLSmall())) {
-			//PicassoHelper.load(ctx, getContent().getImageURLSmall(), );
 			Picasso.with(ctx)
 					.load(getContent().getImageURLSmall())
 					.transform(new TransformGradient(10, 10))
-					.placeholder(android.R.drawable.progress_indeterminate_horizontal)
+					.placeholder(R.color.grey_500)
+					.error(R.color.grey_500)
 					.into(ivPhoto);
+
+
+		} else {
+			ivPhoto.setImageResource(0);
+			ivPhoto.setBackgroundColor(ctx.getResources().getColor(R.color.grey_500));
 		}
 
 		// Set photo title

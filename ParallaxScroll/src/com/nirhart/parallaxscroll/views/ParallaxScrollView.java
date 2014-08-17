@@ -1,26 +1,29 @@
 package com.nirhart.parallaxscroll.views;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+
 import com.nirhart.parallaxscroll.R;
 
-import java.util.ArrayList;
+
 
 public class ParallaxScrollView extends ScrollView {
 
 	private static final int DEFAULT_PARALLAX_VIEWS = 1;
 	private static final float DEFAULT_INNER_PARALLAX_FACTOR = 1.9F;
 	private static final float DEFAULT_PARALLAX_FACTOR = 1.9F;
-	private static final float DEFAULT_ALPHA_FACTOR = 1.9F;
+	private static final float DEFAULT_ALPHA_FACTOR = -1F;
 	private int numOfParallaxViews = DEFAULT_PARALLAX_VIEWS;
 	private float innerParallaxFactor = DEFAULT_PARALLAX_FACTOR;
 	private float parallaxFactor = DEFAULT_PARALLAX_FACTOR;
+	private float alphaFactor = DEFAULT_ALPHA_FACTOR;
 	private ArrayList<ParallaxedView> parallaxedViews = new ArrayList<ParallaxedView>();
-	private float alphaFactor;
 
 	public ParallaxScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -65,19 +68,20 @@ public class ParallaxScrollView extends ScrollView {
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
-		float factor = parallaxFactor;
+		float parallax = parallaxFactor;
 		float alpha = alphaFactor;
 		for (ParallaxedView parallaxedView : parallaxedViews) {
-			parallaxedView.setOffset((float)t / factor);
-			factor *= innerParallaxFactor;
-
-			float x = 100 / ((float)t + alpha);
-			parallaxedView.setAlpha(x);
-			alpha *= DEFAULT_ALPHA_FACTOR;
+			parallaxedView.setOffset((float)t / parallax);
+			parallax *= innerParallaxFactor;
+			if (alpha != DEFAULT_ALPHA_FACTOR) {
+				parallaxedView.setAlpha(100 / ((float)t * alpha));
+				alpha /= alphaFactor;
+			}
+			parallaxedView.animateNow();
 		}
 	}
 	
-	protected class ScrollViewParallaxedItem extends ParallaxedView{
+	protected class ScrollViewParallaxedItem extends ParallaxedView {
 
 		public ScrollViewParallaxedItem(View view) {
 			super(view);
