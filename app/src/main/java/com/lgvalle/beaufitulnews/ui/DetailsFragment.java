@@ -3,6 +3,7 @@ package com.lgvalle.beaufitulnews.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Xml;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -132,7 +133,10 @@ public class DetailsFragment extends BaseFragment {
 		sb.append(getActivity().getString(R.string.html_header));
 		sb.append(item.getDescription().get(1));
 		sb.append(getActivity().getString(R.string.html_footer));
-		tvCuerpo.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html; charset=UTF-8", "utf-8", null);
+
+		tvCuerpo.getSettings().setDefaultTextEncodingName(Xml.Encoding.UTF_8.toString());
+		tvCuerpo.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html", Xml.Encoding.UTF_8.toString(), null);
+		//tvCuerpo.loadData(sb.toString(), "text/html; charset=UTF-8", Xml.Encoding.UTF_8.toString());
 		tvCuerpo.setBackgroundColor(0x00000000);
 	}
 

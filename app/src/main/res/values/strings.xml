@@ -16,6 +16,28 @@
 	<string name="section_deportes">Deportes</string>
 	<string name="section_sociedad">Sociedad</string>
 	<string name="section_politica">Política</string>
-	<string name="html_header"><![CDATA[<HTML><HEAD><LINK href=\"styles.css\" type=\"text/css\" rel=\"stylesheet\"/></HEAD><body>]]></string>
+	<string name="html_header">
+
+
+		<![CDATA[<HTML><meta charset="UTF-8"><link href=\'http://fonts.googleapis.com/css?family=Noticia+Text\' rel=\'stylesheet\' type=\'text/css\'><body>]]>
+		<![CDATA[
+			<style>
+
+
+			body, span, div {
+			    font-family: \'Noticia Text\' !important;
+			    color: #424242 !important; /* grey_800 */
+			    font-size: 18px !important;
+			    margin: 0px !important;
+			    padding: 0px !important;
+			}
+
+			genre, subtitle, image_titulo_image_pie {
+				display: none;
+			}
+			</style>
+		]]>
+
+	</string>
 	<string name="html_footer"><![CDATA[</body></HTML>]]></string>
 </resources>
