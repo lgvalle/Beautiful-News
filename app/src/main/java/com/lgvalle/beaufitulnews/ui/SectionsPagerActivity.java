@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -194,8 +193,12 @@ public class SectionsPagerActivity extends BaseActivity implements SectionsPager
 			}
 		});
 
-		int tabViewResId = i == 0 ? R.layout.tab_home_custom : R.layout.tab_custom;
-		View tabView = getLayoutInflater().inflate(tabViewResId, null);
+		View tabView;
+		if (i == 0) {
+			tabView = getLayoutInflater().inflate(R.layout.tab_home_custom, null);
+		} else {
+			tabView = getLayoutInflater().inflate(R.layout.tab_custom, null);
+		}
 		TextView tabText = (TextView) tabView.findViewById(R.id.tab_text);
 		tabText.setText(sections[i].getTitle());
 		tab.setCustomView(tabView);
@@ -215,14 +218,10 @@ public class SectionsPagerActivity extends BaseActivity implements SectionsPager
 
 	@Override
 	public void openDetails(int itemIndex, List<Item> items, Section section) {
-		Log.d(TAG, "[BeautifulNewsActivity - openDetails] - (line 238): " + "open details");
 		Intent i = new Intent(this, DetailsPagerActivity.class);
 		i.putExtra(DetailsPagerActivity.INTENT_EXTRA_INDEX, itemIndex);
 		i.putExtra(DetailsPagerActivity.INTENT_EXTRA_SECTION, section);
-		//i.putParcelableArrayListExtra(DetailsPagerActivity.INTENT_EXTRA_ITEMS, (ArrayList<? extends Parcelable>) items);
-		Log.d(TAG, "[BeautifulNewsActivity - openDetails] - (line 244): " + "intent built");
 		startActivity(i);
-
 	}
 
 	private void actionBarToTabs() {

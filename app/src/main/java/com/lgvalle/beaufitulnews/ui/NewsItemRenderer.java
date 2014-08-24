@@ -65,6 +65,10 @@ public class NewsItemRenderer extends Renderer<Item> {
 					.into(ivPhoto);
 
 
+		} else {
+			// Clear photo
+			ivPhoto.setImageResource(0);
+			ivPhoto.setImageBitmap(null);
 		}
 		// Set photo title
 		tvPhotoTitle.setText(getContent().getTitle());
@@ -95,7 +99,5 @@ public class NewsItemRenderer extends Renderer<Item> {
 		super.onRecycle(content);
 		mSpring.setCurrentValue(0);
 		mSpring.setEndValue(1);
-		// Clear photo
-		ivPhoto.setImageResource(0);
 	}
 }

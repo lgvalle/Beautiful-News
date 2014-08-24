@@ -136,7 +136,6 @@ public class DetailsFragment extends BaseFragment {
 
 		tvCuerpo.getSettings().setDefaultTextEncodingName(Xml.Encoding.UTF_8.toString());
 		tvCuerpo.loadDataWithBaseURL("file:///android_asset/", sb.toString(), "text/html", Xml.Encoding.UTF_8.toString(), null);
-		//tvCuerpo.loadData(sb.toString(), "text/html; charset=UTF-8", Xml.Encoding.UTF_8.toString());
 		tvCuerpo.setBackgroundColor(0x00000000);
 	}
 
