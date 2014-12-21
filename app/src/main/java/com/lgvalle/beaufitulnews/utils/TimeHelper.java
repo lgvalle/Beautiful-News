@@ -1,8 +1,5 @@
 package com.lgvalle.beaufitulnews.utils;
 
-import android.util.Log;
-import com.crashlytics.android.Crashlytics;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,8 +19,6 @@ public class TimeHelper {
 			Date parsedDate = dateFormat.parse(date);
 			timestamp = new Timestamp(parsedDate.getTime());
 		} catch (Exception e) {
-			Log.e(TAG, "[TimeHelper - getTimestamp] - (line 20): " + "", e);
-			Crashlytics.logException(e);
 			timestamp = new Timestamp(System.currentTimeMillis());
 		}
 		return timestamp.getTime();

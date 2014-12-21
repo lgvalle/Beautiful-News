@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.crashlytics.android.Crashlytics;
 import com.lgvalle.beaufitulnews.R;
 import com.lgvalle.beaufitulnews.data.InPreferencesItemStorage;
 import com.lgvalle.beaufitulnews.data.ItemRepository;
@@ -45,7 +44,6 @@ public class SectionsPagerActivity extends BaseActivity implements SectionsPager
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Crashlytics.start(this);
 	}
 
 	@Override

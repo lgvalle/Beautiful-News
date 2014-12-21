@@ -35,19 +35,19 @@ public abstract class BaseFragment extends Fragment {
 	}
 
 	protected void setActionBarTitle(String title) {
-		if (getActivity() != null) {
+		if (getActivity() != null && getActivity().getActionBar() != null) {
 			getActivity().getActionBar().setTitle(title);
 		}
 	}
 
 	protected void hideActionBar() {
-		if (getActivity() != null) {
+		if (getActivity() != null && getActivity().getActionBar() != null) {
 			getActivity().getActionBar().hide();
 		}
 	}
 
 	protected void showActionBar() {
-		if (getActivity() != null) {
+		if (getActivity() != null && getActivity().getActionBar() != null) {
 			getActivity().getActionBar().show();
 		}
 	}
