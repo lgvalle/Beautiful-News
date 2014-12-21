@@ -83,3 +83,7 @@ dependencies {
     compile project(':ParallaxScroll')
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
