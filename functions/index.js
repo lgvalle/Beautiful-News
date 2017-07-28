@@ -5,7 +5,6 @@ var client = new Client();
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-
 exports.fetch = functions.https.onRequest((req, res) => {
     console.log("function starting");
     var lastEdition = admin.database().ref('/feed/last');
@@ -25,8 +24,12 @@ function parse(snapshot, res, lastEdition) {
         client.get("https://ep00.epimg.net/rss/elpais/portada.xml", function (data, response) {
             console.log("feed fetched");
             const items = parseChannel(data.rss.channel)
+            const editionFullDate = new Date(data.rss.channel.pubDate).toISOString()
+            const editionDate = editionFullDate.split('T')[0]
+            console.log("edition date: " + editionDate)
 
-            lastEdition.push().set(items)
+            lastEdition.child(editionDate)
+                .set({ date: editionFullDate, items: items })
                 .then(() => console.log("items pushed to firebase"))
                 .then(() => response(res, 201, items));
         });
