@@ -8,7 +8,7 @@ admin.initializeApp(functions.config().firebase);
 exports.fetch = functions.https.onRequest((req, res) => {
     console.log("function starting");
     var lastEdition = admin.database().ref('/feed/last');
-    lastEdition.once("value")
+    return lastEdition.once("value")
         .then(snapshot => parse(snapshot, res, lastEdition));
 });
 
@@ -17,7 +17,9 @@ function parse(snapshot, res, lastEdition) {
 
     if (exists) {
         console.log("Exist -> return from DB")
-        response(res, 200, snapshot.val());
+        return res.status(200)
+            .type('application/json')
+            .send(snapshot.val());
 
     } else {
         console.log("Missing -> fetch")
@@ -25,21 +27,20 @@ function parse(snapshot, res, lastEdition) {
             console.log("feed fetched");
             const items = parseChannel(data.rss.channel)
             const editionFullDate = new Date(data.rss.channel.pubDate).toISOString()
-            const editionDate = editionFullDate.split('T')[0]
-            console.log("edition date: " + editionDate)
+            console.log("edition date: " + editionFullDate)
 
-            lastEdition.child(editionDate)
-                .set({ date: editionFullDate, items: items })
-                .then(() => console.log("items pushed to firebase"))
-                .then(() => response(res, 201, items));
+            return lastEdition
+                .set({
+                    date: editionFullDate,
+                    items: items
+                })
+                .then(function () {
+                    res.status(201)
+                        .type('application/json')
+                        .send(items)
+                })
         });
     }
-}
-
-function response(res, code, elements) {
-    return res.status(code)
-        .type('application/json')
-        .send(elements);
 }
 
 function parseChannel(channel) {
