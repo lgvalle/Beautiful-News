@@ -13,32 +13,25 @@ exports.fetch = functions.https.onRequest((req, res) => {
 });
 
 function parse(snapshot, res, lastEdition) {
-    const exists = (snapshot.val() !== null);
-    if (exists) {
-        const existingEditionDate = new Date(snapshot.val().date)
-        const now = new Date(Date.now())
-        const elapsed = now.getTime() - existingEditionDate.getTime();
-
-        if (elapsed < ONE_HOUR) {
-            console.log("Exist & still valid -> return from DB")
-            return res.status(200)
-                .type('application/json')
-                .send(snapshot.val());
-        } else {
-            console.log("Exist but old -> continue")
-        }
+    if (snapshot.exists() && elapsed(snapshot.val().date) < ONE_HOUR) {
+        console.log("Exist & still valid -> return from DB")
+        return res.status(200)
+            .type('application/json')
+            .send(snapshot.val());
+            
+    } else {
+        console.log("Exist but old -> continue")
     }
 
     console.log("Missing -> fetch")
     client.get("https://ep00.epimg.net/rss/elpais/portada.xml", function (data, response) {
         console.log("feed fetched");
         const items = parseChannel(data.rss.channel)
-        const editionFullDate = new Date(data.rss.channel.pubDate).toISOString()
-        console.log("edition date: " + editionFullDate)
+        const now = new Date(Date.now()).toISOString()
 
         return lastEdition
             .set({
-                date: editionFullDate,
+                date: now,
                 items: items
             })
             .then(function () {
@@ -48,6 +41,12 @@ function parse(snapshot, res, lastEdition) {
             })
     });
 
+}
+
+function elapsed(date) {
+    const then = new Date(date)
+    const now = new Date(Date.now())
+    return now.getTime() - then.getTime()
 }
 
 function parseChannel(channel) {
