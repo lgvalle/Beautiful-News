@@ -1,45 +1,162 @@
+------
+-----
+
+const ONE_HOUR = 3600000
+var functions = require('firebase-functions');
+
 var Client = require('node-rest-client').Client;
 var client = new Client();
 
-var request = require('request');
+const admin = require('firebase-admin');
 
-request('https://ep00.epimg.net/rss/elpais/portada.xml', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-        console.log("it works!");
-        console.log(body);
+const URL_EL_PAIS = "https://ep00.epimg.net/rss/elpais/portada.xml"
+const URL_THE_GUARDIAN = "https://www.theguardian.com/uk/london/rss"
+
+admin.initializeApp(functions.config().firebase);
+
+exports.fetch = functions.https.onRequest((req, res) => {
+    console.log("function starting");
+    var lastEdition = admin.database().ref('/feed/last');
+    return lastEdition
+        .once("value")
+        .then(snapshot => parse(snapshot, res, lastEdition));
+});
+
+exports.fetchGuardian = functions.https.onRequest((req, res) => {
+    console.log("Fetching The Guardian");
+    var lastEdition = admin.database().ref('/feed/guardian');
+    return lastEdition
+        .once("value")
+        .then(snapshot => parse(snapshot, res, lastEdition));
+});
+
+
+
+function parse(snapshot, res, lastEdition) {
+    if (snapshot.exists() && elapsed(snapshot.val().date) < ONE_HOUR) {
+        console.log("Exist & still valid -> return from DB")
+        return res.status(200)
+            .type('application/json')
+            .send(snapshot.val());
+
+    } else {
+        console.log("Exist but old -> continue")
     }
-})
 
-/*
-// direct way 
-client.get("https://ep00.epimg.net/rss/elpais/portada.xml", function (data, response) {
-    // parsed response body as js object 
-    console.log(data.rss.channel.item[0].title);
-    // raw response 
-    //console.log(response);
+    console.log("Missing -> fetch")
+    client.get(URL_THE_GUARDIAN, function (data, response) {
+        console.log("feed fetched");
+        //const items = parseChannel(data.rss.channel)
+        const items = cleanUp(data)
 
+        return lastEdition
+            .set({
+                date: new Date(Date.now()).toISOString(),
+                items: items
+            })
+            .then(function () {
+                res.status(201)
+                    .type('application/json')
+                    .send(items)
+            })
+    });
+
+}
+
+function elapsed(date) {
+    const then = new Date(date)
+    const now = new Date(Date.now())
+    return now.getTime() - then.getTime()
+}
+
+function parseChannel(channel) {
+    const items = []
+    const promises = []
+
+    channel.item.forEach(element => {
+        const item = makeItem(element);
+
+        //promises.push(analyseItem(item));
+
+        items.push(item);
+    });
+
+    /*
+    Promise.all(promises).then(results => {
+        results.forEach(result => {
+            const sentiment = result[0].documentSentiment;
+
+            console.log(`Text: ${item.description}`);
+            console.log(`Sentiment score: ${sentiment.score}`);
+            console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+
+            item.sentimentScore = sentiment.score;
+            item.sentimentMagnitude = sentiment.magnitude;
+        })
+    })
+    */
+
+
+    return items;
+}
+
+function analyseItem(item) {
+    const document = {
+        'content': item.description,
+        type: 'PLAIN_TEXT'
+    };
+
+    // Detects the sentiment of the text
+    return language.analyzeSentiment({ 'document': document });
+
+}
+
+function makeItem(element) {
+    item = {
+        title: element.title,
+        link: element.link,
+        date: element.pubDate,
+        description: element.description,
+        content: element["content:encoded"] || null, // prevent undefined insert into Firebase DB
+        creator: element["dc:creator"],
+        media: []
+    }
+
+    element.enclosure.forEach(enclosure => {
+        item.media.push({
+            url: enclosure.$.url,
+            type: enclosure.$.type
+        })
+    });
+
+    return item;
+}
+
+function cleanUp(data) {  
+    // Empty array to add clean up elements
+    const items = []
+    // We are only interested in 'channel' children
     const channel = data.rss.channel
 
     channel.item.forEach(element => {
-        const item = {
+        item = {
             title: element.title,
-            link: element.link,
-            date: element.pubDate,
             description: element.description,
-            content: element["content:encoded"],
+            date: element.pubDate,
             creator: element["dc:creator"],
             media: []
         }
 
-        element.enclosure.forEach(enclosure => {
+        // Iterates through all the elements named '<media:content>' extracting the info we care about
+        element["media:content"].forEach(mediaContent => {
             item.media.push({
-                url: enclosure.$.url,
-                type: enclosure.$.type
+                url: mediaContent.$.url,                // Parses media:content url attribute
+                credit : mediaContent["media:credit"]._ // Parses media:cretit tag content
             })
         });
-        console.log(item)
 
-        
+        items.push(item);
     });
-});
-*/
+
+    return items;
+}
