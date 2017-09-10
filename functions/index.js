@@ -9,18 +9,24 @@ var client = new Client();
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+exports.fetchGuardianWithoutCache = functions.https.onRequest((req, res) => {
+    console.log("Fetching The Guardian Without Cache");
+    return request(URL_THE_GUARDIAN)
+        .then(data => cleanUp(data))
+        .then(items => saveInDatabase(items))
+        .then(items => response(res, items, 201))
+
+});
+
 exports.fetchGuardian = functions.https.onRequest((req, res) => {
     console.log("Fetching The Guardian");
     var lastEdition = admin.database().ref('/feed/guardian');
     return lastEdition
         .once('value')
-        //.then(snapshot => handleCache(snapshot, res, lastEdition))
         .then(snapshot => {
             if (isCacheValid(snapshot)) {
                 return response(res, snapshot.val(), 200)
-
             } else {
-                console.log("Cache not valid")
                 return request(URL_THE_GUARDIAN)
                     .then(data => cleanUp(data))
                     .then(items => saveInDatabase(lastEdition, items))
@@ -29,12 +35,20 @@ exports.fetchGuardian = functions.https.onRequest((req, res) => {
         })
 });
 
-function saveInDatabase(databaseRef, items) {
+function saveInDatabase2(databaseRef, items) {
     return databaseRef
         .set({
             date: new Date(Date.now()).toISOString(),
             items: items
         })
+        .then(() => {
+            return Promise.resolve(items);
+        })
+}
+
+function saveInDatabase(items) {
+    return admin.database().ref('/feed/guardian')
+        .set({ items: items })
         .then(() => {
             return Promise.resolve(items);
         })
