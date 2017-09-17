@@ -1,6 +1,3 @@
-------
------
-
 const ONE_HOUR = 3600000
 var functions = require('firebase-functions');
 
