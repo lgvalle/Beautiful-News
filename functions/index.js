@@ -2,12 +2,11 @@ const ONE_HOUR = 3600000
 
 var functions = require('firebase-functions');
 const URL_THE_GUARDIAN = "https://www.theguardian.com/uk/london/rss"
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
 
 var Client = require('node-rest-client').Client;
 var client = new Client();
-
-const admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
 
 exports.fetchGuardianWithoutCache = functions.https.onRequest((req, res) => {
     console.log("Fetching The Guardian Without Cache");
@@ -35,20 +34,12 @@ exports.fetchGuardian = functions.https.onRequest((req, res) => {
         })
 });
 
-function saveInDatabase2(databaseRef, items) {
+function saveInDatabase(databaseRef, items) {
     return databaseRef
         .set({
             date: new Date(Date.now()).toISOString(),
             items: items
         })
-        .then(() => {
-            return Promise.resolve(items);
-        })
-}
-
-function saveInDatabase(items) {
-    return admin.database().ref('/feed/guardian')
-        .set({ items: items })
         .then(() => {
             return Promise.resolve(items);
         })
@@ -70,37 +61,6 @@ function response(res, items, code) {
 
 function isCacheValid(snapshot) {
     return (snapshot.exists() && elapsed(snapshot.val().date) < ONE_HOUR)
-}
-
-function handleCache(snapshot, res, lastEdition) {
-    if (snapshot.exists() && elapsed(snapshot.val().date) < ONE_HOUR) {
-        console.log("Exist & still valid -> return from DB")
-        return res.status(200)
-            .type('application/json')
-            .send(snapshot.val());
-
-    } else {
-        console.log("Exist but old -> continue")
-    }
-
-    console.log("Missing -> fetch")
-    client.get(URL_THE_GUARDIAN, function (data, response) {
-        console.log("feed fetched");
-        //const items = parseChannel(data.rss.channel)
-        const items = cleanUp(data)
-
-        return lastEdition
-            .set({
-                date: new Date(Date.now()).toISOString(),
-                items: items
-            })
-            .then(function () {
-                res.status(201)
-                    .type('application/json')
-                    .send(items)
-            })
-    });
-
 }
 
 function elapsed(date) {
