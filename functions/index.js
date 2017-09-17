@@ -8,11 +8,15 @@ admin.initializeApp(functions.config().firebase);
 var Client = require('node-rest-client').Client;
 var client = new Client();
 
+const Language = require('@google-cloud/language');
+const language = Language();
+
 exports.fetchGuardianWithoutCache = functions.https.onRequest((req, res) => {
     console.log("Fetching The Guardian Without Cache");
     return request(URL_THE_GUARDIAN)
         .then(data => cleanUp(data))
-        .then(items => saveInDatabase(items))
+        //.then(items => saveInDatabase(items))
+        .then(items => analyze(items))
         .then(items => response(res, items, 201))
 
 });
@@ -28,6 +32,7 @@ exports.fetchGuardian = functions.https.onRequest((req, res) => {
             } else {
                 return request(URL_THE_GUARDIAN)
                     .then(data => cleanUp(data))
+                    .then(items => analyze(items))
                     .then(items => saveInDatabase(lastEdition, items))
                     .then(items => response(res, items, 201))
             }
@@ -70,13 +75,10 @@ function elapsed(date) {
 }
 
 function cleanUp(data) {
-    console.log("Cleaning up data: ", data)
-    // Empty array to add clean up elements
-    const items = []
     // We are only interested in 'channel' children
     const channel = data.rss.channel
 
-    channel.item.forEach(element => {
+    const items = channel.item.map(element => {
         item = {
             title: element.title,
             description: element.description,
@@ -91,7 +93,57 @@ function cleanUp(data) {
                 credit: mediaContent['media:credit']._ // Parses media:cretit tag content
             })
         });
-        items.push(item);
-    });
-    return Promise.resolve(items);
+
+        return item
+
+    })
+    return items
+
+    //return Promise.all(items);
 }
+
+function analyze(items) {
+    const prArray = items.map(item => {
+        const document = {
+            'content': item.description,
+            type: 'PLAIN_TEXT'
+        };
+
+        return language.analyzeSentiment({ 'document': document })
+            .then((results) => {
+                const sentiment = results[0].documentSentiment;
+                item.score = sentiment.score
+                console.log(`Text: ${item.description}`);
+                console.log(`Sentiment score: ${sentiment.score}`);
+                console.log(`Item score: ${item.score}`);
+                console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+                return item
+            })
+            .catch((err) => {
+                console.error('ERROR:', err);
+            })
+    })
+
+    return Promise.all(prArray)
+}
+
+
+/*
+function analyze(item) {
+    // Detects the sentiment of the text
+    const document = {
+        'content': item.description,
+        type: 'PLAIN_TEXT'
+    };
+    const results = await language.analyzeSentiment({ 'document': document })
+
+
+    const sentiment = results[0].documentSentiment;
+
+    console.log(`Text: ${item.description}`);
+    console.log(`Sentiment score: ${sentiment.score}`);
+    console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+
+    return item
+}
+*/
