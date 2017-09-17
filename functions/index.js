@@ -32,7 +32,6 @@ exports.fetchGuardian = functions.https.onRequest((req, res) => {
             } else {
                 return request(URL_THE_GUARDIAN)
                     .then(data => cleanUp(data))
-                    .then(items => analyze(items))
                     .then(items => saveInDatabase(lastEdition, items))
                     .then(items => response(res, items, 201))
             }
@@ -94,10 +93,10 @@ function cleanUp(data) {
             })
         });
 
-        return item
+        return analyzeItem(item)
 
     })
-    return items
+    return Promise.all(items)
 
     //return Promise.all(items);
 }
@@ -125,6 +124,24 @@ function analyze(items) {
     })
 
     return Promise.all(prArray)
+}
+
+function analyzeItem(item) {
+    const document = {
+        'content': item.description,
+        type: 'PLAIN_TEXT'
+    };
+
+    return language.analyzeSentiment({ 'document': document })
+        .then((results) => {
+            const sentiment = results[0].documentSentiment;
+            item.score = sentiment.score
+            item.magnitude = sentiment.magnitude
+            return item
+        })
+        .catch((err) => {
+            console.error('ERROR:', err);
+        })
 }
 
 
